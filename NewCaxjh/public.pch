@@ -1,0 +1,56 @@
+//
+//  public.pch
+//  NewCaxjh
+//
+//  Created by Apple on 2018/9/21.
+//  Copyright © 2018年 Apple. All rights reserved.
+//
+
+#ifndef public_pch
+#define public_pch
+
+#ifdef DEBUG
+#define UCLog(s, ...) NSLog( @"<%p %@:(%d)> %@", self, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__] )
+#else
+#define UCLog(s, ...)
+#endif
+
+
+
+#import "UIColor+EAHexColor.h"
+#import <Masonry.h>
+#import "UIView+Extend.h"
+
+
+/**屏幕**/
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+
+//iphoneX尺寸
+#define  kIPhoneX ((kScreenWidth == 375.f && kScreenHeight == 812.f) || (kScreenWidth == 812.f && kScreenHeight == 375.f)? YES : NO)
+#define IPHONE5       [[UIScreen mainScreen] bounds].size.height == 568.0
+#define IPHONE6       [[UIScreen mainScreen] bounds].size.height == 667.0
+#define IPHONE6PLUS   [[UIScreen mainScreen] bounds].size.height == 736.0
+
+//字体大小
+#define SizeScale ((kScreenHeight > 568) ? (kIPhoneX ? 1.1: kScreenHeight/568) : 1)
+#define kFont(num)  [UIFont systemFontOfSize:num*SizeScale]
+
+/**
+*  1.获得RGB颜色
+*/
+#define RGBA(r, g, b, a)                    [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#define RGB(r, g, b)                        RGBA(r, g, b, 1.0f)
+//字体颜色
+#define defaultTextColor  [UIColor colorWithHex:@"#2b2b2b"]//默认文字颜色
+#define selectedTexColor  [UIColor colorWithHex:@"#4ec3bb"]//蓝绿
+#define grayTexColor  [UIColor colorWithHex:@"#aeaeae"]//浅灰色
+#define KbackgoundColor  [UIColor colorWithHex:@"#f7f7f7"]//背景色
+#define KLineColor  [UIColor colorWithHex:@"#f1f1f3"]//分割线
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+
+#endif /* public_pch */
