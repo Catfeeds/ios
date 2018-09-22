@@ -27,6 +27,7 @@
     // Do any additional setup after loading the view.
     self.title = @"密码登录";
     [self setUpRightBarButtonItemWithTitle:@"忘记密码"];
+    [self.rightBarItem setTitleColor:selectedTexColor forState:UIControlStateNormal];
     [self setupUI];
     self.loginInputView1.textFieldAccount.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"USER_PHONE"];
 }
@@ -65,7 +66,7 @@
     
 }
 //忘记密码
--(void)didtouchRightButton:(UIButton *)sender{
+-(void)didtouchRightBarItem:(UIButton *)sender{
     WXForgetPasswordOneVC *vc = [[WXForgetPasswordOneVC alloc]init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
@@ -191,7 +192,7 @@
 - (UIImageView *)logoImageView {
     if (!_logoImageView) {
         _logoImageView = [[UIImageView alloc] init];
-        _logoImageView.image = [UIImage imageNamed:@"login_logo"];
+        _logoImageView.image = [UIImage imageNamed:@"LaunchScreen"];
     }
     return _logoImageView;
 }
@@ -202,7 +203,7 @@
         _loginInputView1.textFieldAccount.placeholder = @"请输入手机号";
         _loginInputView1.textFieldAccount.delegate = self;
         _loginInputView1.textFieldAccount.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _loginInputView1.imageViewCode.image = [UIImage imageNamed:@"人"];
+        _loginInputView1.imageViewCode.image = [UIImage imageNamed:@"login_account"];
         [_loginInputView1.arrowButton setImage:[UIImage imageNamed:@"login_delete"] forState:UIControlStateNormal];
         [_loginInputView1.arrowButton addTarget:self action:@selector(didDeleteBtnAction) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -214,7 +215,7 @@
         _loginInputView2.textFieldAccount.placeholder = @"请输入密码";
         _loginInputView2.textFieldAccount.delegate = self;
         _loginInputView2.textFieldAccount.secureTextEntry = YES;
-        _loginInputView2.imageViewCode.image = [UIImage imageNamed:@"密码"];
+        _loginInputView2.imageViewCode.image = [UIImage imageNamed:@"login_password"];
         [_loginInputView2.arrowButton setImage:[UIImage imageNamed:@"login_password_noSee"] forState:UIControlStateNormal];
         [_loginInputView2.arrowButton addTarget:self action:@selector(didTouchPasswordSee) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -228,8 +229,8 @@
         _loginButton.titleLabel.font = kFont(14);
         [_loginButton setTitleColor:[UIColor colorWithHex:@"#ffffff"] forState:UIControlStateNormal];
         [_loginButton setTitleColor:[UIColor colorWithHex:@"#ffffff"] forState:UIControlStateHighlighted];
-        [_loginButton setBackgroundColor:[UIColor colorWithHex:@"#ff6767"]];
-        _loginButton.layer.cornerRadius = 4;
+        [_loginButton setBackgroundColor:selectedTexColor];
+        _loginButton.layer.cornerRadius = 22;
         _loginButton.layer.masksToBounds = YES;
         [_loginButton addTarget:self action:@selector(didTouchLoginButton) forControlEvents:UIControlEventTouchUpInside];
     }

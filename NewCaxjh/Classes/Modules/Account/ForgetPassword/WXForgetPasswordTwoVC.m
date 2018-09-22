@@ -138,7 +138,7 @@
 - (UIImageView *)logoImageView {
     if (!_logoImageView) {
         _logoImageView = [[UIImageView alloc] init];
-        _logoImageView.image = [UIImage imageNamed:@"login_logo"];
+        _logoImageView.image = [UIImage imageNamed:@"LaunchScreen"];
     }
     return _logoImageView;
 }
@@ -148,7 +148,7 @@
         _loginInputView1.textFieldAccount.placeholder = @"请输入6-16位的数字字母";
         _loginInputView1.textFieldAccount.delegate = self;
         //_loginInputView1.textFieldAccount.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _loginInputView1.imageViewCode.image = [UIImage imageNamed:@"密码"];
+        _loginInputView1.imageViewCode.image = [UIImage imageNamed:@"login_password"];
          [_loginInputView1.arrowButton setImage:[UIImage imageNamed:@"login_password_noSee"] forState:UIControlStateNormal];
         [_loginInputView1.arrowButton addTarget:self action:@selector(didTouchPasswordSee1) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -159,7 +159,7 @@
         _loginInputView2 = [[WXLoginInputView alloc] init];
         _loginInputView2.textFieldAccount.placeholder = @"请再次输入密码";
         _loginInputView2.textFieldAccount.delegate = self;
-        _loginInputView2.imageViewCode.image = [UIImage imageNamed:@"密码"];
+        _loginInputView2.imageViewCode.image = [UIImage imageNamed:@"login_password"];
          [_loginInputView2.arrowButton setImage:[UIImage imageNamed:@"login_password_noSee"] forState:UIControlStateNormal];
         [_loginInputView2.arrowButton addTarget:self action:@selector(didTouchPasswordSee2) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -173,8 +173,8 @@
         _loginButton.titleLabel.font = kFont(14);
         [_loginButton setTitleColor:[UIColor colorWithHex:@"#ffffff"] forState:UIControlStateNormal];
         [_loginButton setTitleColor:[UIColor colorWithHex:@"#ffffff"] forState:UIControlStateHighlighted];
-        [_loginButton setBackgroundColor:[UIColor colorWithHex:@"#ff6767"]];
-        _loginButton.layer.cornerRadius = 4;
+        [_loginButton setBackgroundColor:selectedTexColor];
+        _loginButton.layer.cornerRadius = 22;
         _loginButton.layer.masksToBounds = YES;
         [_loginButton addTarget:self action:@selector(didTouchLoginButton) forControlEvents:UIControlEventTouchUpInside];
     }

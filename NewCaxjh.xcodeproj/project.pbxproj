@@ -15,6 +15,8 @@
 		1831D25F2153985500D1BB65 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D25E2153985500D1BB65 /* main.m */; };
 		1831D2692153985500D1BB65 /* NewCaxjhTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D2682153985500D1BB65 /* NewCaxjhTests.m */; };
 		1831D2742153985500D1BB65 /* NewCaxjhUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D2732153985500D1BB65 /* NewCaxjhUITests.m */; };
+		183EAAD82156462800333B42 /* SchoolVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183EAAD72156462800333B42 /* SchoolVideoTableViewCell.m */; };
+		183EAAE1215692B300333B42 /* BaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183EAAE0215692B300333B42 /* BaseTableViewCell.m */; };
 		18C131BF2154823D0025816E /* SeeChildIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131BE2154823D0025816E /* SeeChildIndexViewController.m */; };
 		18C131C22154827B0025816E /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131C12154827B0025816E /* BaseViewController.m */; };
 		18C131C5215482A70025816E /* BaseTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131C4215482A70025816E /* BaseTabBar.m */; };
@@ -69,6 +71,10 @@
 		1831D26F2153985500D1BB65 /* NewCaxjhUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewCaxjhUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1831D2732153985500D1BB65 /* NewCaxjhUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewCaxjhUITests.m; sourceTree = "<group>"; };
 		1831D2752153985500D1BB65 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		183EAAD62156462800333B42 /* SchoolVideoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SchoolVideoTableViewCell.h; sourceTree = "<group>"; };
+		183EAAD72156462800333B42 /* SchoolVideoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SchoolVideoTableViewCell.m; sourceTree = "<group>"; };
+		183EAADF215692B300333B42 /* BaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewCell.h; sourceTree = "<group>"; };
+		183EAAE0215692B300333B42 /* BaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewCell.m; sourceTree = "<group>"; };
 		18C131BD2154823D0025816E /* SeeChildIndexViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SeeChildIndexViewController.h; sourceTree = "<group>"; };
 		18C131BE2154823D0025816E /* SeeChildIndexViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SeeChildIndexViewController.m; sourceTree = "<group>"; };
 		18C131C02154827B0025816E /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -263,6 +269,8 @@
 				18C131C4215482A70025816E /* BaseTabBar.m */,
 				18C131C62154833F0025816E /* BaseTabBarViewController.h */,
 				18C131C72154833F0025816E /* BaseTabBarViewController.m */,
+				183EAADF215692B300333B42 /* BaseTableViewCell.h */,
+				183EAAE0215692B300333B42 /* BaseTableViewCell.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -272,6 +280,15 @@
 			children = (
 			);
 			path = Vendors;
+			sourceTree = "<group>";
+		};
+		183EAAD5215645C800333B42 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				183EAAD62156462800333B42 /* SchoolVideoTableViewCell.h */,
+				183EAAD72156462800333B42 /* SchoolVideoTableViewCell.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		18C131B521547F6D0025816E /* SeeChild */ = {
@@ -335,6 +352,7 @@
 		18C131BC215481E60025816E /* Index */ = {
 			isa = PBXGroup;
 			children = (
+				183EAAD5215645C800333B42 /* View */,
 				18C131E02154B3A10025816E /* ViewController */,
 				18C131BD2154823D0025816E /* SeeChildIndexViewController.h */,
 				18C131BE2154823D0025816E /* SeeChildIndexViewController.m */,
@@ -621,9 +639,11 @@
 				18C131E32154B3E70025816E /* SeeChildNoLoginInVC.m in Sources */,
 				18C131EF2154FA8F0025816E /* WXCaptchaLoginVC.m in Sources */,
 				18C131DF215492420025816E /* UIColor+EAHexColor.m in Sources */,
+				183EAAE1215692B300333B42 /* BaseTableViewCell.m in Sources */,
 				18C131D521548A070025816E /* UserIndexViewController.m in Sources */,
 				18C131D2215489C80025816E /* TeachChildIndexViewController.m in Sources */,
 				18C131C5215482A70025816E /* BaseTabBar.m in Sources */,
+				183EAAD82156462800333B42 /* SchoolVideoTableViewCell.m in Sources */,
 				18C131DB21548B3E0025816E /* DiscoveryIndexViewController.m in Sources */,
 				18C131EA2154F9630025816E /* WXLoginInputView.m in Sources */,
 				18C131BF2154823D0025816E /* SeeChildIndexViewController.m in Sources */,

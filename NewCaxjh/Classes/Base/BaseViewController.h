@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface BaseViewController : UIViewController
-
+@property (nonatomic ,strong)UIButton *rightBarItem;
 //自定义导航栏右侧按钮
 -(void)setUpRightBarButtonItemWithTitle:(NSString *)title;
--(void)rightBtnClick:(UIButton *)sender;
+-(void)didtouchRightBarItem:(UIButton *)sender;
 @end

@@ -38,13 +38,14 @@
     }];
     [self.arrowButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right);
-        make.centerY.equalTo(self);
+        //make.centerY.equalTo(self);
+        make.bottom.equalTo(self.line.mas_top).offset(-1);
     }];
     [self.textFieldAccount mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.imageViewCode.mas_right).offset(5);
         make.right.equalTo(self.arrowButton.mas_left);
         make.top.equalTo(self);
-        make.bottom.equalTo(self).offset(-1);
+        make.bottom.equalTo(self).offset(-2);
     }];
 
 }
@@ -76,7 +77,7 @@
 - (UIView *)line {
     if (!_line) {
         _line = [[UIView alloc] init];
-        _line.backgroundColor = selectedTexColor;
+        _line.backgroundColor = KLineColor;
     }
     return _line;
 }

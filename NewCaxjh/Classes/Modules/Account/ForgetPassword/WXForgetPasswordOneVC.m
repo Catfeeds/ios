@@ -27,6 +27,8 @@
     // Do any additional setup after loading the view.
     self.title = @"找回密码";
     [self setUpRightBarButtonItemWithTitle:@"联系客服"];
+    [self.rightBarItem setTitleColor:selectedTexColor forState:UIControlStateNormal];
+    
     [self setupUI];
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -84,6 +86,9 @@
     self.loginInputView1.textFieldAccount.text = @"";
 }
 -(void)didTouchLoginButton{
+    WXForgetPasswordTwoVC *vc = [[WXForgetPasswordTwoVC alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 //    if (self.loginInputView1.textFieldAccount.text.length != 11) {
 //        [self.view makeToast:@"请输入正确的手机号码" duration:1 position:CSToastPositionTop];
 //        return;
@@ -161,7 +166,7 @@
 - (UIImageView *)logoImageView {
     if (!_logoImageView) {
         _logoImageView = [[UIImageView alloc] init];
-        _logoImageView.image = [UIImage imageNamed:@"login_logo"];
+        _logoImageView.image = [UIImage imageNamed:@"LaunchScreen"];
     }
     return _logoImageView;
 }
@@ -172,7 +177,7 @@
         _loginInputView1.textFieldAccount.placeholder = @"请输入手机号";
         _loginInputView1.textFieldAccount.delegate = self;
         //_loginInputView1.textFieldAccount.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _loginInputView1.imageViewCode.image = [UIImage imageNamed:@"人"];
+        _loginInputView1.imageViewCode.image = [UIImage imageNamed:@"login_account"];
         [_loginInputView1.arrowButton setImage:[UIImage imageNamed:@"login_delete"] forState:UIControlStateNormal];
         [_loginInputView1.arrowButton addTarget:self action:@selector(didDeleteBtnAction) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -183,8 +188,10 @@
         _loginInputView2 = [[WXLoginInputView alloc] init];
         _loginInputView2.textFieldAccount.placeholder = @"请输入验证码";
         _loginInputView2.textFieldAccount.delegate = self;
-        _loginInputView2.imageViewCode.image = [UIImage imageNamed:@"密码"];
-        [_loginInputView2.arrowButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+        _loginInputView2.imageViewCode.image = [UIImage imageNamed:@"login_password"];
+        [_loginInputView2.arrowButton setTitle:@" 获取验证码 " forState:UIControlStateNormal];
+        [_loginInputView2.arrowButton setBorder:selectedTexColor width:1];
+        _loginInputView2.arrowButton.radius = 15;
         [_loginInputView2.arrowButton addTarget:self action:@selector(didTouchGetCapatcha) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginInputView2;
@@ -197,8 +204,8 @@
         _loginButton.titleLabel.font = kFont(14);
         [_loginButton setTitleColor:[UIColor colorWithHex:@"#ffffff"] forState:UIControlStateNormal];
         [_loginButton setTitleColor:[UIColor colorWithHex:@"#ffffff"] forState:UIControlStateHighlighted];
-        [_loginButton setBackgroundColor:[UIColor colorWithHex:@"#ff6767"]];
-        _loginButton.layer.cornerRadius = 4;
+        [_loginButton setBackgroundColor:selectedTexColor];
+        _loginButton.layer.cornerRadius = 22;
         _loginButton.layer.masksToBounds = YES;
         [_loginButton addTarget:self action:@selector(didTouchLoginButton) forControlEvents:UIControlEventTouchUpInside];
     }

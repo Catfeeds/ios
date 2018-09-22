@@ -27,6 +27,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //去除导航栏下方的横线;
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self setupUI];
     self.loginInputView1.textFieldAccount.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"USER_PHONE"];
 }
@@ -70,7 +73,7 @@
 -(void)didTouchProtocolButton{
     
 }
--(void)didtouchRightButton:(UIButton *)sender{
+-(void)didTouchPasswordLogin{
     WXPasswordLoginVC *vc = [[WXPasswordLoginVC alloc]init];
     vc.hidesBottomBarWhenPushed = YES;
     vc.delegate = self.delegate;
@@ -256,7 +259,7 @@
         _loginInputView2.textFieldAccount.placeholder = @"请输入验证码";
         _loginInputView2.textFieldAccount.delegate = self;
         _loginInputView2.imageViewCode.image = [UIImage imageNamed:@"login_password"];
-        [_loginInputView2.arrowButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [_loginInputView2.arrowButton setTitle:@" 获取验证码 " forState:UIControlStateNormal];
         [_loginInputView2.arrowButton setBorder:selectedTexColor width:1];
         _loginInputView2.arrowButton.radius = 15;
         [_loginInputView2.arrowButton addTarget:self action:@selector(didTouchGetCapatcha) forControlEvents:UIControlEventTouchUpInside];
@@ -290,7 +293,7 @@
         _passwordButton.layer.cornerRadius = 22;
         _passwordButton.layer.masksToBounds = YES;
         [_passwordButton setBorder:selectedTexColor width:1];
-        [_passwordButton addTarget:self action:@selector(didTouchLoginButton) forControlEvents:UIControlEventTouchUpInside];
+        [_passwordButton addTarget:self action:@selector(didTouchPasswordLogin) forControlEvents:UIControlEventTouchUpInside];
     }
     return _passwordButton;
 }

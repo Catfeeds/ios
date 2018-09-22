@@ -97,11 +97,13 @@
     rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     [rightBtn setTitle:title forState:UIControlStateNormal];
     [rightBtn setTitleColor:defaultTextColor forState:UIControlStateNormal];
-    [rightBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn addTarget:self action:@selector(didtouchRightBarItem:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
     self.navigationItem.rightBarButtonItem = rightItem;
+    
+    self.rightBarItem = rightBtn;
 }
--(void)rightBtnClick:(UIButton *)sender{
+-(void)didtouchRightBarItem:(UIButton *)sender{
     
 }
 - (void)didReceiveMemoryWarning {
