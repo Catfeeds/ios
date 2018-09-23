@@ -15,6 +15,11 @@
 		1831D25F2153985500D1BB65 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D25E2153985500D1BB65 /* main.m */; };
 		1831D2692153985500D1BB65 /* NewCaxjhTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D2682153985500D1BB65 /* NewCaxjhTests.m */; };
 		1831D2742153985500D1BB65 /* NewCaxjhUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D2732153985500D1BB65 /* NewCaxjhUITests.m */; };
+		1837DD6A215784E500786744 /* PlayBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837DD69215784E500786744 /* PlayBackViewController.m */; };
+		1837DD6E21578ECC00786744 /* PlayBackTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837DD6D21578ECC00786744 /* PlayBackTableViewCell.m */; };
+		1837DD722157C2FC00786744 /* UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837DD712157C2FC00786744 /* UserSettingViewController.m */; };
+		1837DD762157C33900786744 /* RealNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837DD752157C33900786744 /* RealNameViewController.m */; };
+		1837DD7A2157C3BB00786744 /* UserWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837DD792157C3BB00786744 /* UserWalletViewController.m */; };
 		183EAAD82156462800333B42 /* SchoolVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183EAAD72156462800333B42 /* SchoolVideoTableViewCell.m */; };
 		183EAAE1215692B300333B42 /* BaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183EAAE0215692B300333B42 /* BaseTableViewCell.m */; };
 		18C131BF2154823D0025816E /* SeeChildIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131BE2154823D0025816E /* SeeChildIndexViewController.m */; };
@@ -71,6 +76,16 @@
 		1831D26F2153985500D1BB65 /* NewCaxjhUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewCaxjhUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1831D2732153985500D1BB65 /* NewCaxjhUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewCaxjhUITests.m; sourceTree = "<group>"; };
 		1831D2752153985500D1BB65 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1837DD68215784E500786744 /* PlayBackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayBackViewController.h; sourceTree = "<group>"; };
+		1837DD69215784E500786744 /* PlayBackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayBackViewController.m; sourceTree = "<group>"; };
+		1837DD6C21578ECC00786744 /* PlayBackTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayBackTableViewCell.h; sourceTree = "<group>"; };
+		1837DD6D21578ECC00786744 /* PlayBackTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayBackTableViewCell.m; sourceTree = "<group>"; };
+		1837DD702157C2FC00786744 /* UserSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserSettingViewController.h; sourceTree = "<group>"; };
+		1837DD712157C2FC00786744 /* UserSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserSettingViewController.m; sourceTree = "<group>"; };
+		1837DD742157C33900786744 /* RealNameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RealNameViewController.h; sourceTree = "<group>"; };
+		1837DD752157C33900786744 /* RealNameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RealNameViewController.m; sourceTree = "<group>"; };
+		1837DD782157C3BB00786744 /* UserWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserWalletViewController.h; sourceTree = "<group>"; };
+		1837DD792157C3BB00786744 /* UserWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserWalletViewController.m; sourceTree = "<group>"; };
 		183EAAD62156462800333B42 /* SchoolVideoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SchoolVideoTableViewCell.h; sourceTree = "<group>"; };
 		183EAAD72156462800333B42 /* SchoolVideoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SchoolVideoTableViewCell.m; sourceTree = "<group>"; };
 		183EAADF215692B300333B42 /* BaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewCell.h; sourceTree = "<group>"; };
@@ -282,6 +297,52 @@
 			path = Vendors;
 			sourceTree = "<group>";
 		};
+		1837DD67215784BD00786744 /* Playback */ = {
+			isa = PBXGroup;
+			children = (
+				1837DD6B2157868900786744 /* View */,
+				1837DD68215784E500786744 /* PlayBackViewController.h */,
+				1837DD69215784E500786744 /* PlayBackViewController.m */,
+			);
+			path = Playback;
+			sourceTree = "<group>";
+		};
+		1837DD6B2157868900786744 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1837DD6C21578ECC00786744 /* PlayBackTableViewCell.h */,
+				1837DD6D21578ECC00786744 /* PlayBackTableViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1837DD6F2157C2D700786744 /* setting */ = {
+			isa = PBXGroup;
+			children = (
+				1837DD702157C2FC00786744 /* UserSettingViewController.h */,
+				1837DD712157C2FC00786744 /* UserSettingViewController.m */,
+			);
+			path = setting;
+			sourceTree = "<group>";
+		};
+		1837DD732157C31400786744 /* realName */ = {
+			isa = PBXGroup;
+			children = (
+				1837DD742157C33900786744 /* RealNameViewController.h */,
+				1837DD752157C33900786744 /* RealNameViewController.m */,
+			);
+			path = realName;
+			sourceTree = "<group>";
+		};
+		1837DD772157C38C00786744 /* wallet */ = {
+			isa = PBXGroup;
+			children = (
+				1837DD782157C3BB00786744 /* UserWalletViewController.h */,
+				1837DD792157C3BB00786744 /* UserWalletViewController.m */,
+			);
+			path = wallet;
+			sourceTree = "<group>";
+		};
 		183EAAD5215645C800333B42 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -294,6 +355,7 @@
 		18C131B521547F6D0025816E /* SeeChild */ = {
 			isa = PBXGroup;
 			children = (
+				1837DD67215784BD00786744 /* Playback */,
 				18C131BC215481E60025816E /* Index */,
 			);
 			path = SeeChild;
@@ -318,6 +380,9 @@
 		18C131B821547F920025816E /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				1837DD772157C38C00786744 /* wallet */,
+				1837DD732157C31400786744 /* realName */,
+				1837DD6F2157C2D700786744 /* setting */,
 				18C131CB215485CB0025816E /* Index */,
 			);
 			path = Mine;
@@ -634,17 +699,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1837DD7A2157C3BB00786744 /* UserWalletViewController.m in Sources */,
 				18C131D821548A1D0025816E /* TalkChildIndexViewController.m in Sources */,
 				18C131F22154FAAF0025816E /* WXPasswordLoginVC.m in Sources */,
 				18C131E32154B3E70025816E /* SeeChildNoLoginInVC.m in Sources */,
 				18C131EF2154FA8F0025816E /* WXCaptchaLoginVC.m in Sources */,
 				18C131DF215492420025816E /* UIColor+EAHexColor.m in Sources */,
+				1837DD6A215784E500786744 /* PlayBackViewController.m in Sources */,
 				183EAAE1215692B300333B42 /* BaseTableViewCell.m in Sources */,
 				18C131D521548A070025816E /* UserIndexViewController.m in Sources */,
 				18C131D2215489C80025816E /* TeachChildIndexViewController.m in Sources */,
+				1837DD722157C2FC00786744 /* UserSettingViewController.m in Sources */,
 				18C131C5215482A70025816E /* BaseTabBar.m in Sources */,
 				183EAAD82156462800333B42 /* SchoolVideoTableViewCell.m in Sources */,
 				18C131DB21548B3E0025816E /* DiscoveryIndexViewController.m in Sources */,
+				1837DD762157C33900786744 /* RealNameViewController.m in Sources */,
 				18C131EA2154F9630025816E /* WXLoginInputView.m in Sources */,
 				18C131BF2154823D0025816E /* SeeChildIndexViewController.m in Sources */,
 				18C131C22154827B0025816E /* BaseViewController.m in Sources */,
@@ -653,6 +722,7 @@
 				18C131F72154FB9A0025816E /* WXForgetPasswordOneVC.m in Sources */,
 				18C131F82154FB9A0025816E /* WXForgetPasswordTwoVC.m in Sources */,
 				18C131CF215485FA0025816E /* FindChildIndexViewController.m in Sources */,
+				1837DD6E21578ECC00786744 /* PlayBackTableViewCell.m in Sources */,
 				1831D25F2153985500D1BB65 /* main.m in Sources */,
 				18C131FB215505D40025816E /* UIView+Extend.m in Sources */,
 				1831D2512153985400D1BB65 /* AppDelegate.m in Sources */,

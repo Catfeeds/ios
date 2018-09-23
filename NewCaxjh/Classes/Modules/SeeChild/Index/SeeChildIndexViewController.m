@@ -9,6 +9,7 @@
 #import "SeeChildIndexViewController.h"
 #import "SeeChildNoLoginInVC.h"
 #import "SchoolVideoTableViewCell.h"
+#import "PlayBackViewController.h"
 
 @interface SeeChildIndexViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong)UIView *topView;
@@ -73,6 +74,31 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark---点击事件
+//回放
+-(void)didtouchRightBarItem:(UIButton *)sender{
+    PlayBackViewController *vc = [[PlayBackViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+//学生学校切换
+-(void)didTouchChangeSchool{
+    UIAlertController * sheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    NSArray *titles = @[@"北京市附属医院第三儿童幼儿园",@"小神童第二儿童幼儿园"];
+    for (NSString *title in titles) {
+        UIAlertAction * action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        }];
+        [sheet addAction:action];
+        [action setValue:grayTexColor forKey:@"_titleTextColor"];
+    }
+    UIAlertAction * cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [cancle setValue:grayTexColor forKey:@"_titleTextColor"];
+    [sheet addAction:cancle];
+    [self presentViewController:sheet animated:YES completion:nil];
+}
+
 #pragma mark--- setui
 -(void)setupUI{
     [self.view addSubview:self.topView];
@@ -104,13 +130,11 @@
     cell.checkReSelected = YES;
     __weak typeof(cell) weakCell = cell;
     [cell setSelectAction:^{
-        NSLog(@"被选中");
         weakCell.selectFlagView.backgroundColor = selectedTexColor;
         weakCell.textLabel.textColor = selectedTexColor;
     }];
     
     [cell setUnSelectAction:^{
-        NSLog(@"取消选中");
         if (indexPath.section == 4) {
             return ;
         }
@@ -186,6 +210,7 @@
     if (!_schoolSelectBtn) {
         _schoolSelectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_schoolSelectBtn setImage:[UIImage imageNamed:@"see_change"] forState:UIControlStateNormal];
+        [_schoolSelectBtn addTarget:self action:@selector(didTouchChangeSchool) forControlEvents:UIControlEventTouchUpInside];
     }
     return _schoolSelectBtn;
 }

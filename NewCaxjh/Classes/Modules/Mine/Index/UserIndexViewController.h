@@ -6,8 +6,8 @@
 //  Copyright © 2018年 Apple. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface UserIndexViewController : BaseViewController
+@interface UserIndexViewController : UIViewController
 
 @end

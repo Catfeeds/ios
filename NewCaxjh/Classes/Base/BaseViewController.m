@@ -7,9 +7,10 @@
 //
 
 #import "BaseViewController.h"
+#import "UserIndexViewController.h"
 
 @interface BaseViewController ()
-
+@property (nonatomic ,strong)UIView *userIndexView;
 @end
 
 @implementation BaseViewController
@@ -70,8 +71,18 @@
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.leftBarButtonItem = barButtonItem;
 }
+//头像点击
 -(void)avatarButtonClick{
+    UserIndexViewController *userIndex = [[UserIndexViewController alloc]init];
+    userIndex.view.frame = CGRectMake(-kScreenWidth, 0, kScreenWidth, kScreenHeight);
+    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:userIndex.view];
+    [[UIApplication sharedApplication].keyWindow.rootViewController addChildViewController:userIndex];
+    [[UIApplication sharedApplication].keyWindow resignKeyWindow ];
+    self.userIndexView = userIndex.view;
     
+    [UIView animateWithDuration:0.5 animations:^{
+        userIndex.view.transform = CGAffineTransformMakeTranslation(kScreenWidth, 0);
+    }];
 }
 //返回按钮
 -(void)setupBackBarButtonItem{
