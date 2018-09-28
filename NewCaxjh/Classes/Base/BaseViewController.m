@@ -20,9 +20,6 @@
     // Do any additional setup after loading the view.
     
     self.navigationController.navigationBar.hidden = NO;
-    //电池栏
-    //self.navigationController.navigationBar.barTintColor = backgroudColor;
-    
     // 手势有效设置为YES  无效为NO
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     //侧滑手势
@@ -30,6 +27,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    //不通明
     self.navigationController.navigationBar.translucent = NO;
     self.tabBarController.tabBar.translucent = NO;
     if (self.navigationController.viewControllers.count > 1) {
@@ -43,6 +41,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = NO;
+    //电池栏
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithHex:@"#242424"],
+                                                NSFontAttributeName : [UIFont fontWithName:@"Helvetica" size:18]}];
     if (self.navigationController.viewControllers.count > 1) {
         
     }
@@ -94,6 +96,7 @@
     [button addTarget:self action:@selector(popButtonClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.leftBarButtonItem = barButtonItem;
+    self.popBarItem = button;
 }
 -(void)popButtonClick{
     [self.navigationController popViewControllerAnimated:YES];

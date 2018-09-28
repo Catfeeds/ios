@@ -39,6 +39,8 @@
 		18C131F72154FB9A0025816E /* WXForgetPasswordOneVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131F32154FB9A0025816E /* WXForgetPasswordOneVC.m */; };
 		18C131F82154FB9A0025816E /* WXForgetPasswordTwoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131F62154FB9A0025816E /* WXForgetPasswordTwoVC.m */; };
 		18C131FB215505D40025816E /* UIView+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131FA215505D40025816E /* UIView+Extend.m */; };
+		18F2C264215C6BE600C89ECB /* TimeSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F2C263215C6BE600C89ECB /* TimeSelectViewController.m */; };
+		18F2C269215C79AD00C89ECB /* WXDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F2C268215C79AD00C89ECB /* WXDatePickerView.m */; };
 		DA9015CEE291479659FBE223 /* libPods-NewCaxjh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEBA5B1654DF826F0F03116 /* libPods-NewCaxjh.a */; };
 /* End PBXBuildFile section */
 
@@ -125,6 +127,10 @@
 		18C131F62154FB9A0025816E /* WXForgetPasswordTwoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXForgetPasswordTwoVC.m; sourceTree = "<group>"; };
 		18C131F9215505D40025816E /* UIView+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Extend.h"; sourceTree = "<group>"; };
 		18C131FA215505D40025816E /* UIView+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extend.m"; sourceTree = "<group>"; };
+		18F2C262215C6BE600C89ECB /* TimeSelectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSelectViewController.h; sourceTree = "<group>"; };
+		18F2C263215C6BE600C89ECB /* TimeSelectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeSelectViewController.m; sourceTree = "<group>"; };
+		18F2C267215C79AD00C89ECB /* WXDatePickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXDatePickerView.h; sourceTree = "<group>"; };
+		18F2C268215C79AD00C89ECB /* WXDatePickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WXDatePickerView.m; sourceTree = "<group>"; };
 		7FEBA5B1654DF826F0F03116 /* libPods-NewCaxjh.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewCaxjh.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84437C0F8C547E7C96F18D5D /* Pods-NewCaxjh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewCaxjh.release.xcconfig"; path = "Pods/Target Support Files/Pods-NewCaxjh/Pods-NewCaxjh.release.xcconfig"; sourceTree = "<group>"; };
 		FA7108D381EDDBF050A93168 /* Pods-NewCaxjh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewCaxjh.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NewCaxjh/Pods-NewCaxjh.debug.xcconfig"; sourceTree = "<group>"; };
@@ -242,6 +248,7 @@
 		1831D28321539E3500D1BB65 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				18F2C265215C796300C89ECB /* Tool */,
 				1831D28721539F6F00D1BB65 /* Vendors */,
 				1831D28621539F1B00D1BB65 /* Base */,
 				1831D28521539F0B00D1BB65 /* Category */,
@@ -355,6 +362,7 @@
 		18C131B521547F6D0025816E /* SeeChild */ = {
 			isa = PBXGroup;
 			children = (
+				18F2C260215C6B9300C89ECB /* TimeSelect */,
 				1837DD67215784BD00786744 /* Playback */,
 				18C131BC215481E60025816E /* Index */,
 			);
@@ -516,6 +524,40 @@
 				18C131F12154FAAF0025816E /* WXPasswordLoginVC.m */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		18F2C260215C6B9300C89ECB /* TimeSelect */ = {
+			isa = PBXGroup;
+			children = (
+				18F2C261215C6BC400C89ECB /* ViewController */,
+			);
+			path = TimeSelect;
+			sourceTree = "<group>";
+		};
+		18F2C261215C6BC400C89ECB /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				18F2C262215C6BE600C89ECB /* TimeSelectViewController.h */,
+				18F2C263215C6BE600C89ECB /* TimeSelectViewController.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		18F2C265215C796300C89ECB /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				18F2C266215C797700C89ECB /* WXDatePickerView */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		18F2C266215C797700C89ECB /* WXDatePickerView */ = {
+			isa = PBXGroup;
+			children = (
+				18F2C267215C79AD00C89ECB /* WXDatePickerView.h */,
+				18F2C268215C79AD00C89ECB /* WXDatePickerView.m */,
+			);
+			path = WXDatePickerView;
 			sourceTree = "<group>";
 		};
 		EB8A0E27241A3FC5BEA61209 /* Frameworks */ = {
@@ -722,7 +764,9 @@
 				18C131F72154FB9A0025816E /* WXForgetPasswordOneVC.m in Sources */,
 				18C131F82154FB9A0025816E /* WXForgetPasswordTwoVC.m in Sources */,
 				18C131CF215485FA0025816E /* FindChildIndexViewController.m in Sources */,
+				18F2C264215C6BE600C89ECB /* TimeSelectViewController.m in Sources */,
 				1837DD6E21578ECC00786744 /* PlayBackTableViewCell.m in Sources */,
+				18F2C269215C79AD00C89ECB /* WXDatePickerView.m in Sources */,
 				1831D25F2153985500D1BB65 /* main.m in Sources */,
 				18C131FB215505D40025816E /* UIView+Extend.m in Sources */,
 				1831D2512153985400D1BB65 /* AppDelegate.m in Sources */,

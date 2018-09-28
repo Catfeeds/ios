@@ -8,6 +8,7 @@
 
 #import "PlayBackViewController.h"
 #import "PlayBackTableViewCell.h"
+#import "TimeSelectViewController.h"
 
 @interface PlayBackViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong)UIView *topView;
@@ -56,14 +57,13 @@
         make.top.equalTo(self.topView.mas_bottom);
     }];
 }
-#pragma mark--- setui
--(void)setupUI{
-    [self.view addSubview:self.topView];
-    [self.topView addSubview:self.classRoomLabel];
-    [self.topView addSubview:self.selectTimeBtn];
-    [self.topView addSubview:self.dividingLine];
-    [self.view addSubview:self.tableView];
+#pragma mark---点击事件
+-(void)didTouchSelectTime{
+    TimeSelectViewController *vc = [[TimeSelectViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
+
 
 #pragma mark---UItableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -78,7 +78,7 @@
         cell = [[PlayBackTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:PlayBackCellName];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = @"2019-09-10 09：30-2019-09-10 10：00";
+    cell.textLabel.text = @"2019-09-10 09:30 - 2019-09-10 10:00";
     
     return cell;
 }
@@ -104,7 +104,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
-
+#pragma mark--- setui
+-(void)setupUI{
+    [self.view addSubview:self.topView];
+    [self.topView addSubview:self.classRoomLabel];
+    [self.topView addSubview:self.selectTimeBtn];
+    [self.topView addSubview:self.dividingLine];
+    [self.view addSubview:self.tableView];
+}
 
 #pragma 懒加载
 -(UIView *)topView{

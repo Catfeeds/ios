@@ -35,6 +35,7 @@
 //字体大小
 #define SizeScale ((kScreenHeight > 568) ? (kIPhoneX ? 1.1: kScreenHeight/568) : 1)
 #define kFont(num)  [UIFont systemFontOfSize:num*SizeScale]
+#define kFontName(num,fontName)  [UIFont fontWithName:fontName size:num*SizeScale]
 
 /**
 *  1.获得RGB颜色

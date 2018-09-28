@@ -54,6 +54,7 @@
     //去除导航栏下方的横线;
     [nav.navigationBar setShadowImage:[UIImage new]];
 
+    //tabBar
     nav.tabBarItem.title = title;
     [nav.tabBarItem setTitlePositionAdjustment:UIOffsetMake(0, -6)];
     UIEdgeInsets insets = UIEdgeInsetsMake(-12, 0, 0, 0);

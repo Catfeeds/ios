@@ -8,6 +8,7 @@
 
 #import "UserIndexViewController.h"
 #import "UserSettingViewController.h"
+#import "UserWalletViewController.h"
 
 @interface UserIndexViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong)UIView *bgView;
@@ -189,7 +190,18 @@
     return 0.01;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    NSString *name = self.titlesArr[indexPath.row][@"name"];
+    //取出根视图控制器
+    UITabBarController *tabBarVc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    //取出当前选中的导航控制器
+    UINavigationController *nav = [tabBarVc selectedViewController];
+    if ([name isEqualToString:@"我的钱包"]) {
+        UserWalletViewController *vc = [[UserWalletViewController alloc]init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [nav pushViewController:vc animated:YES];
+    }
+    //销毁页面
+    [self.view removeFromSuperview];
 }
 
 

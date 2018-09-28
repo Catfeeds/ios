@@ -91,7 +91,7 @@
         
         }];
         [sheet addAction:action];
-        [action setValue:grayTexColor forKey:@"_titleTextColor"];
+        [action setValue:defaultTextColor forKey:@"_titleTextColor"];
     }
     UIAlertAction * cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     [cancle setValue:grayTexColor forKey:@"_titleTextColor"];
