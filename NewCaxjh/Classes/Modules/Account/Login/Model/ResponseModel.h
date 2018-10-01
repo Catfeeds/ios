@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface ResponseModel : NSObject
-
+@property (nonatomic, readwrite, copy) NSString *message;
+@property (nonatomic, readwrite, strong) id result;
+@property (nonatomic, readwrite, copy) NSString *code;
 @end

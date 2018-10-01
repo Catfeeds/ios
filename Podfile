@@ -6,4 +6,5 @@ target 'NewCaxjh' do
   pod 'SDWebImage'
   pod 'MJRefresh'
   pod 'SVProgressHUD'
+  pod 'Toast', '~> 4.0.0'
 end

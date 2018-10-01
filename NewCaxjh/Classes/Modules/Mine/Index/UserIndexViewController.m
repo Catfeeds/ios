@@ -9,9 +9,9 @@
 #import "UserIndexViewController.h"
 #import "UserSettingViewController.h"
 #import "UserWalletViewController.h"
+#import "RealNameViewController.h"
 
 @interface UserIndexViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic ,strong)UIView *bgView;
 @property (nonatomic ,strong)UITableView *tableView;
 @property (nonatomic ,strong)UIView *tableViewHeader;
 @property (nonatomic ,strong)UIImageView *tableViewHeaderBg;
@@ -44,6 +44,20 @@
     tap.numberOfTouchesRequired = 1;
     tap.numberOfTapsRequired = 1;
     [self.bgView addGestureRecognizer:tap];
+    
+    if (UserToken == nil || [UserToken isEqualToString:@""]) {
+        self.tableViewHeaderBg.image = [UIImage imageNamed:@"user_noLogin_bg"];
+        self.loginBtn.hidden = NO;
+        self.phoneLabel.hidden = YES;
+        self.accountAddBtn.hidden = YES;
+    }else{
+        self.tableViewHeaderBg.image = [UIImage imageNamed:@"user_login_bg"];
+        self.loginBtn.hidden = YES;
+        self.phoneLabel.hidden = NO;
+        self.accountAddBtn.hidden = NO;
+        self.phoneLabel.text = UserPhone;
+        self.phoneLabel.text = [self.phoneLabel.text stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+    }
 
 }
 //布局
@@ -53,18 +67,27 @@
         make.top.bottom.left.right.equalTo(self.view);
     }];
     /********底部************/
-    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.left.equalTo(self.view);
-        make.height.equalTo(@60);
-        make.width.equalTo(self.view.mas_width).multipliedBy(0.7);
-    }];
+    if (kIPhoneX) {
+        [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.left.equalTo(self.view);
+            make.height.equalTo(@84);
+            make.width.equalTo(self.view.mas_width).multipliedBy(0.7);
+            make.bottom.equalTo(self.view).offset(0);
+        }];
+    }else{
+        [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.left.equalTo(self.view);
+            make.height.equalTo(@60);
+            make.width.equalTo(self.view.mas_width).multipliedBy(0.7);
+        }];
+    }
     [self.settingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.bottomView).offset(30);
-        make.centerY.equalTo(self.bottomView);
+        make.top.equalTo(self.bottomView).offset(10);
     }];
     [self.schoolCenterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.settingBtn.mas_right).offset(60);
-        make.centerY.equalTo(self.bottomView);
+        make.top.equalTo(self.bottomView).offset(10);
     }];
     [self initButton:self.settingBtn];
     [self initButton:self.schoolCenterBtn];
@@ -74,10 +97,17 @@
         make.bottom.equalTo(self.bottomView.mas_top);
         make.width.equalTo(self.bottomView.mas_width);
     }];
-    [self.tableViewHeaderBg mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self.tableViewHeader);
-        make.height.equalTo(@120);
-    }];
+    if (kIPhoneX) {
+        [self.tableViewHeaderBg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(self.tableViewHeader);
+            make.height.equalTo(@150);
+        }];
+    }else{
+        [self.tableViewHeaderBg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(self.tableViewHeader);
+            make.height.equalTo(@120);
+        }];
+    }
     [self.avatarButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.centerX.equalTo(self.tableViewHeaderBg);
     }];
@@ -100,6 +130,7 @@
 }
 //点击背景
 -(void)didTouchBgView{
+    self.bgView.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:0.5 animations:^{
         self.view.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
@@ -120,28 +151,6 @@
     
     //销毁页面
     [self.view removeFromSuperview];
-}
-
-#pragma mark--- setui
--(void)setupUI{
-    //背景图
-    [self.view addSubview:self.bgView];
-    //底部视图
-    [self.view addSubview:self.bottomView];
-    [self.bottomView addSubview:self.settingBtn];
-    [self.bottomView addSubview:self.schoolCenterBtn];
-    //tableView
-    [self.view addSubview:self.tableView];
-    self.tableView.tableHeaderView = self.tableViewHeader;
-    [self.tableViewHeader addSubview:self.tableViewHeaderBg];
-    [self.tableViewHeader addSubview:self.avatarButton];
-    [self.tableViewHeader addSubview:self.phoneLabel];
-    [self.tableViewHeader addSubview:self.accountAddBtn];
-    [self.tableViewHeader addSubview:self.loginBtn];
-    
-    
-    self.phoneLabel.hidden = YES;
-    self.accountAddBtn.hidden = YES;
 }
 
 #pragma mark---UItableViewDelegate
@@ -199,17 +208,42 @@
         UserWalletViewController *vc = [[UserWalletViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [nav pushViewController:vc animated:YES];
+        //销毁页面
+        [self.view removeFromSuperview];
+    }else if ([name isEqualToString:@"实名认证"]) {
+        RealNameViewController *vc = [[RealNameViewController alloc]init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [nav pushViewController:vc animated:YES];
+        //销毁页面
+        [self.view removeFromSuperview];
     }
-    //销毁页面
-    [self.view removeFromSuperview];
 }
 
+#pragma mark--- setui
+-(void)setupUI{
+    //背景图
+    [self.view addSubview:self.bgView];
+    //底部视图
+    [self.view addSubview:self.bottomView];
+    [self.bottomView addSubview:self.settingBtn];
+    [self.bottomView addSubview:self.schoolCenterBtn];
+    //tableView
+    [self.view addSubview:self.tableView];
+    self.tableView.tableHeaderView = self.tableViewHeader;
+    [self.tableViewHeader addSubview:self.tableViewHeaderBg];
+    [self.tableViewHeader addSubview:self.avatarButton];
+    [self.tableViewHeader addSubview:self.phoneLabel];
+    [self.tableViewHeader addSubview:self.accountAddBtn];
+    [self.tableViewHeader addSubview:self.loginBtn];
+
+}
 
 #pragma 懒加载
 -(UIView *)bgView{
     if (!_bgView) {
         _bgView = [UIView new];
-        _bgView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+        //_bgView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+        _bgView.backgroundColor  = [UIColor clearColor];
     }
     return _bgView;
 }
@@ -227,6 +261,8 @@
         _tableView.bounces = NO;
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
+        _tableView.showsVerticalScrollIndicator = NO;
+        _tableView.showsHorizontalScrollIndicator = NO;
         [_tableView setSectionIndexBackgroundColor:[UIColor clearColor]];
         [_tableView setSectionIndexColor:[UIColor whiteColor]];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -238,7 +274,11 @@
 }
 -(UIView *)tableViewHeader{
     if (!_tableViewHeader) {
-        _tableViewHeader = [[UIView alloc]initWithFrame:CGRectMake(0.0, 0.0, self.tableView.width, 170)];
+        if (kIPhoneX) {
+            _tableViewHeader = [[UIView alloc]initWithFrame:CGRectMake(0.0, 0.0, self.tableView.width, 200)];
+        }else{
+            _tableViewHeader = [[UIView alloc]initWithFrame:CGRectMake(0.0, 0.0, self.tableView.width, 170)];
+        }
         _tableViewHeader.backgroundColor = [UIColor whiteColor];
     }
     return _tableViewHeader;

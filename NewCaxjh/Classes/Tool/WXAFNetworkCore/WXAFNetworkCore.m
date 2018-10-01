@@ -7,16 +7,26 @@
 //
 
 #import "WXAFNetworkCore.h"
+
 @interface WXAFNetworkCore ()
 
 @end
+
 @implementation WXAFNetworkCore
 static AFHTTPSessionManager *manager=nil;
 +(AFHTTPSessionManager *)shareManager {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (manager == nil) {
-           manager = [AFHTTPSessionManager manager];
+            manager = [AFHTTPSessionManager manager];
+            //请求
+            manager.requestSerializer = [AFJSONRequestSerializer serializer];
+            //响应
+            manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+            //超时时间
+//            [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+//            manager.requestSerializer.timeoutInterval = 60.0;//设置请求超时时间
+//            [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
         }
     });
     return manager;
@@ -34,7 +44,6 @@ static AFHTTPSessionManager *manager=nil;
                  succeedBlock:(void(^)(id responseObj))succeedBlock
                     failBlock:(void(^)(id error))failBlock{
     AFHTTPSessionManager *manager = [WXAFNetworkCore shareManager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager GET:urlString parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (responseObject) {
             succeedBlock(responseObject);
@@ -60,7 +69,9 @@ static AFHTTPSessionManager *manager=nil;
     
     AFHTTPSessionManager *manager = [WXAFNetworkCore shareManager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    [manager POST:urlString parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (responseObject) {
             succeedBlock(responseObject);
         }
@@ -69,7 +80,6 @@ static AFHTTPSessionManager *manager=nil;
             failBlock(error);
         }
     }];
-    
 }
 //post请求-带进度
 + (void)postHttpRequestWithURL:(NSString *)urlString
@@ -82,7 +92,7 @@ static AFHTTPSessionManager *manager=nil;
     manager.requestSerializer.timeoutInterval= 60.0;
     [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         if (uploadProgress) {
-            //progressBlock(uploadProgress);
+            progressBlock(uploadProgress);
         }
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (responseObject) {

@@ -45,11 +45,19 @@
     }];
     
 }
+#pragma mark---点击事件
 -(void)loginBtnAction{
     WXCaptchaLoginVC *vc = [[WXCaptchaLoginVC alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController: vc animated:YES];
 }
+#pragma mark---代理方法
+- (void)toTab{
+    [self.view removeFromSuperview];
+}
+
+
+
 #pragma mark---UI
 -(void)setupUI{
     [self.view addSubview:self.topView];

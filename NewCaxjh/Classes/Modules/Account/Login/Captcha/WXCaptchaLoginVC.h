@@ -10,5 +10,5 @@
 #import "WXPasswordLoginVC.h"
 
 @interface WXCaptchaLoginVC : BaseViewController
-@property (nonatomic, readwrite, strong) id<WXPasswordLoginViewControllerDelegate> delegate;
+
 @end

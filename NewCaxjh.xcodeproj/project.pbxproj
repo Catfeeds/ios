@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1813A1C5215F0C2B00BE2FA0 /* RealNameInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813A1C4215F0C2B00BE2FA0 /* RealNameInputView.m */; };
+		1813A1CA215F223F00BE2FA0 /* WXAFNetworkCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813A1C8215F223F00BE2FA0 /* WXAFNetworkCore.m */; };
+		1813A1CE215F283C00BE2FA0 /* ResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813A1CD215F283C00BE2FA0 /* ResponseModel.m */; };
+		1813A1D2215F617100BE2FA0 /* WXTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813A1D1215F617100BE2FA0 /* WXTool.m */; };
+		18258BA12160B4B100AFB524 /* GuidePagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18258BA02160B4B100AFB524 /* GuidePagesViewController.m */; };
 		1831D2512153985400D1BB65 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D2502153985400D1BB65 /* AppDelegate.m */; };
 		1831D2542153985400D1BB65 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D2532153985400D1BB65 /* ViewController.m */; };
 		1831D2572153985400D1BB65 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1831D2552153985400D1BB65 /* Main.storyboard */; };
@@ -62,6 +67,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1813A1C3215F0C2B00BE2FA0 /* RealNameInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RealNameInputView.h; sourceTree = "<group>"; };
+		1813A1C4215F0C2B00BE2FA0 /* RealNameInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RealNameInputView.m; sourceTree = "<group>"; };
+		1813A1C8215F223F00BE2FA0 /* WXAFNetworkCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXAFNetworkCore.m; sourceTree = "<group>"; };
+		1813A1C9215F223F00BE2FA0 /* WXAFNetworkCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXAFNetworkCore.h; sourceTree = "<group>"; };
+		1813A1CC215F283C00BE2FA0 /* ResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseModel.h; sourceTree = "<group>"; };
+		1813A1CD215F283C00BE2FA0 /* ResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseModel.m; sourceTree = "<group>"; };
+		1813A1CF215F2BFF00BE2FA0 /* Const.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Const.h; sourceTree = "<group>"; };
+		1813A1D0215F617100BE2FA0 /* WXTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXTool.h; sourceTree = "<group>"; };
+		1813A1D1215F617100BE2FA0 /* WXTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WXTool.m; sourceTree = "<group>"; };
+		18258B9F2160B4B100AFB524 /* GuidePagesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuidePagesViewController.h; sourceTree = "<group>"; };
+		18258BA02160B4B100AFB524 /* GuidePagesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GuidePagesViewController.m; sourceTree = "<group>"; };
 		1831D24C2153985400D1BB65 /* NewCaxjh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewCaxjh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1831D24F2153985400D1BB65 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1831D2502153985400D1BB65 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -171,6 +187,51 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		1813A1C6215F0C3500BE2FA0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1813A1C3215F0C2B00BE2FA0 /* RealNameInputView.h */,
+				1813A1C4215F0C2B00BE2FA0 /* RealNameInputView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1813A1C7215F223F00BE2FA0 /* WXAFNetworkCore */ = {
+			isa = PBXGroup;
+			children = (
+				1813A1C8215F223F00BE2FA0 /* WXAFNetworkCore.m */,
+				1813A1C9215F223F00BE2FA0 /* WXAFNetworkCore.h */,
+			);
+			path = WXAFNetworkCore;
+			sourceTree = "<group>";
+		};
+		1813A1CB215F281400BE2FA0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1813A1CC215F283C00BE2FA0 /* ResponseModel.h */,
+				1813A1CD215F283C00BE2FA0 /* ResponseModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1813A1D3215F617A00BE2FA0 /* WXTool */ = {
+			isa = PBXGroup;
+			children = (
+				1813A1D0215F617100BE2FA0 /* WXTool.h */,
+				1813A1D1215F617100BE2FA0 /* WXTool.m */,
+			);
+			path = WXTool;
+			sourceTree = "<group>";
+		};
+		18258B9E2160B48F00AFB524 /* GuidePages */ = {
+			isa = PBXGroup;
+			children = (
+				18258B9F2160B4B100AFB524 /* GuidePagesViewController.h */,
+				18258BA02160B4B100AFB524 /* GuidePagesViewController.m */,
+			);
+			path = GuidePages;
+			sourceTree = "<group>";
+		};
 		1831D2432153985400D1BB65 = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +321,7 @@
 		1831D28421539EFC00D1BB65 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				18258B9E2160B48F00AFB524 /* GuidePages */,
 				18C131BB215480720025816E /* Account */,
 				18C131BA21547FE70025816E /* Discovery */,
 				18C131B921547FDC0025816E /* TalkChild */,
@@ -300,6 +362,7 @@
 		1831D28721539F6F00D1BB65 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				1813A1CF215F2BFF00BE2FA0 /* Const.h */,
 			);
 			path = Vendors;
 			sourceTree = "<group>";
@@ -335,6 +398,7 @@
 		1837DD732157C31400786744 /* realName */ = {
 			isa = PBXGroup;
 			children = (
+				1813A1C6215F0C3500BE2FA0 /* View */,
 				1837DD742157C33900786744 /* RealNameViewController.h */,
 				1837DD752157C33900786744 /* RealNameViewController.m */,
 			);
@@ -481,6 +545,7 @@
 		18C131E42154F8350025816E /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				1813A1CB215F281400BE2FA0 /* Model */,
 				18C131EC2154F9990025816E /* Common */,
 				18C131EB2154F9900025816E /* Captcha */,
 				18C131E62154F8780025816E /* View */,
@@ -546,6 +611,8 @@
 		18F2C265215C796300C89ECB /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				1813A1D3215F617A00BE2FA0 /* WXTool */,
+				1813A1C7215F223F00BE2FA0 /* WXAFNetworkCore */,
 				18F2C266215C797700C89ECB /* WXDatePickerView */,
 			);
 			path = Tool;
@@ -743,13 +810,16 @@
 			files = (
 				1837DD7A2157C3BB00786744 /* UserWalletViewController.m in Sources */,
 				18C131D821548A1D0025816E /* TalkChildIndexViewController.m in Sources */,
+				1813A1C5215F0C2B00BE2FA0 /* RealNameInputView.m in Sources */,
 				18C131F22154FAAF0025816E /* WXPasswordLoginVC.m in Sources */,
+				18258BA12160B4B100AFB524 /* GuidePagesViewController.m in Sources */,
 				18C131E32154B3E70025816E /* SeeChildNoLoginInVC.m in Sources */,
 				18C131EF2154FA8F0025816E /* WXCaptchaLoginVC.m in Sources */,
 				18C131DF215492420025816E /* UIColor+EAHexColor.m in Sources */,
 				1837DD6A215784E500786744 /* PlayBackViewController.m in Sources */,
 				183EAAE1215692B300333B42 /* BaseTableViewCell.m in Sources */,
 				18C131D521548A070025816E /* UserIndexViewController.m in Sources */,
+				1813A1CE215F283C00BE2FA0 /* ResponseModel.m in Sources */,
 				18C131D2215489C80025816E /* TeachChildIndexViewController.m in Sources */,
 				1837DD722157C2FC00786744 /* UserSettingViewController.m in Sources */,
 				18C131C5215482A70025816E /* BaseTabBar.m in Sources */,
@@ -765,11 +835,13 @@
 				18C131F82154FB9A0025816E /* WXForgetPasswordTwoVC.m in Sources */,
 				18C131CF215485FA0025816E /* FindChildIndexViewController.m in Sources */,
 				18F2C264215C6BE600C89ECB /* TimeSelectViewController.m in Sources */,
+				1813A1D2215F617100BE2FA0 /* WXTool.m in Sources */,
 				1837DD6E21578ECC00786744 /* PlayBackTableViewCell.m in Sources */,
 				18F2C269215C79AD00C89ECB /* WXDatePickerView.m in Sources */,
 				1831D25F2153985500D1BB65 /* main.m in Sources */,
 				18C131FB215505D40025816E /* UIView+Extend.m in Sources */,
 				1831D2512153985400D1BB65 /* AppDelegate.m in Sources */,
+				1813A1CA215F223F00BE2FA0 /* WXAFNetworkCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

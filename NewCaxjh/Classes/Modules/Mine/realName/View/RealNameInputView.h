@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface RealNameInputView : UIView
-
+@property (nonatomic ,strong)UILabel *promptLabel;
+@property (nonatomic ,strong)UITextField *contentTextField;
 @end

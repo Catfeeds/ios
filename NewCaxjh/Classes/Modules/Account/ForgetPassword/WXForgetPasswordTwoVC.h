@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "ResponseModel.h"
 
 @interface WXForgetPasswordTwoVC : BaseViewController
 @property (nonatomic, copy)NSString *phone;

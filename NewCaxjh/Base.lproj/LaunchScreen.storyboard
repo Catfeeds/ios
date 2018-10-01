@@ -30,22 +30,30 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreen_bg" translatesAutoresizingMaskIntoConstraints="NO" id="zWn-dC-wom">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="2Uu-3U-FrY" firstAttribute="top" secondItem="zWn-dC-wom" secondAttribute="bottom" id="0gr-D8-yYW"/>
                             <constraint firstItem="2Uu-3U-FrY" firstAttribute="top" secondItem="2bM-0V-jWT" secondAttribute="bottom" constant="20" id="IIY-mt-rGD"/>
                             <constraint firstItem="2bM-0V-jWT" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="MNp-8g-w4z"/>
                             <constraint firstItem="J9O-7F-Pv4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="OsB-GX-Og5"/>
+                            <constraint firstItem="zWn-dC-wom" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="YWV-Gb-XZf"/>
                             <constraint firstItem="J9O-7F-Pv4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-80" id="dDl-DB-RmV"/>
+                            <constraint firstAttribute="trailing" secondItem="zWn-dC-wom" secondAttribute="trailing" id="jKe-r2-dk4"/>
+                            <constraint firstItem="zWn-dC-wom" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="jOu-4S-J2h"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
     <resources>
         <image name="LaunchScreen" width="199" height="54"/>
+        <image name="launchScreen_bg" width="750" height="1334"/>
     </resources>
 </document>

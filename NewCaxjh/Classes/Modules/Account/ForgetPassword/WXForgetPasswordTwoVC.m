@@ -10,6 +10,7 @@
 #import "WXLoginInputView.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "WXPasswordLoginVC.h"
+#import "WXTool.h"
 
 @interface WXForgetPasswordTwoVC ()<UITextFieldDelegate>
 @property (nonatomic, readwrite, strong) UIImageView *logoImageView;
@@ -71,41 +72,35 @@
     }
 }
 -(void)didTouchLoginButton{
-//    if ([QTool checkPassword:self.loginInputView1.textFieldAccount.text] == NO) {
-//        [self.view makeToast:@"请输入6-16位的数字字母的密码" duration:1.0 position:CSToastPositionTop];
-//        return ;
-//    }
-//    if ([QTool checkPassword:self.loginInputView2.textFieldAccount.text] == NO) {
-//        [self.view makeToast:@"请输入6-16位的数字字母的密码" duration:1.0 position:CSToastPositionTop];
-//        return ;
-//    }
-//    if (![self.loginInputView1.textFieldAccount.text isEqualToString:self.loginInputView2.textFieldAccount.text]) {
-//        [self.view makeToast:@"密码与确认密码不一致" duration:1.0 position:CSToastPositionTop];
-//        return ;
-//    }
-//    NSDictionary *dictionary = @{
-//                                 @"phone" : self.phone,
-//                                 @"confirmCode" : self.code,
-//                                 @"password" : [self md5:self.loginInputView1.textFieldAccount.text]
-//                                 };
-//    
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    [PPNetworkHelper setRequestSerializer:PPRequestSerializerJSON];
-//    [PPNetworkHelper POST:kAPIForgetPassURL parameters:dictionary success:^(id responseObject) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//        
-//        XJHLoginResponse *loginResponse = [XJHLoginResponse mj_objectWithKeyValues:responseObject];
-//        
-//        if ([loginResponse.type isEqualToString:@"success"]) {
-//            [self.view makeToast:@"重置密码成功" duration:1.0 position:CSToastPositionTop];
-//            [self performSelector:@selector(pop) withObject:nil afterDelay:1];
-//        } else {
-//            [self.view makeToast:loginResponse.content duration:1.0 position:CSToastPositionTop];
-//        }
-//        
-//    } failure:^(NSError *error) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    }];
+    if ([WXTool checkPassword:self.loginInputView1.textFieldAccount.text] == NO) {
+        [self.view makeToast:@"请输入6-16位的数字字母的密码" duration:1.0 position:CSToastPositionTop];
+        return ;
+    }
+    if ([WXTool checkPassword:self.loginInputView2.textFieldAccount.text] == NO) {
+        [self.view makeToast:@"请输入6-16位的数字字母的密码" duration:1.0 position:CSToastPositionTop];
+        return ;
+    }
+    if (![self.loginInputView1.textFieldAccount.text isEqualToString:self.loginInputView2.textFieldAccount.text]) {
+        [self.view makeToast:@"密码与确认密码不一致" duration:1.0 position:CSToastPositionTop];
+        return ;
+    }
+    [SVProgressHUD show];
+    NSDictionary *params = @{@"mobile":self.phone,@"password":@"",@"client":@"ios",@"log_type":self.code,@"captcha":self.loginInputView1.textFieldAccount.text};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPILoginURL params:params succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        if ([response.code isEqualToString:@"200"]) {
+            [self.view makeToast:@"重置密码成功" duration:1.0 position:CSToastPositionTop];
+            [self performSelector:@selector(pop) withObject:nil afterDelay:1];
+        } else {
+            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        NSLog(@"%@",error);
+    }];
 }
 - (void)pop {
     for (UIViewController *controller in self.navigationController.viewControllers) {
@@ -147,6 +142,7 @@
         _loginInputView1 = [[WXLoginInputView alloc] init];
         _loginInputView1.textFieldAccount.placeholder = @"请输入6-16位的数字字母";
         _loginInputView1.textFieldAccount.delegate = self;
+        _loginInputView1.textFieldAccount.secureTextEntry = YES;
         //_loginInputView1.textFieldAccount.clearButtonMode = UITextFieldViewModeWhileEditing;
         _loginInputView1.imageViewCode.image = [UIImage imageNamed:@"login_password"];
          [_loginInputView1.arrowButton setImage:[UIImage imageNamed:@"login_password_noSee"] forState:UIControlStateNormal];
@@ -158,6 +154,7 @@
     if (!_loginInputView2) {
         _loginInputView2 = [[WXLoginInputView alloc] init];
         _loginInputView2.textFieldAccount.placeholder = @"请再次输入密码";
+        _loginInputView2.textFieldAccount.secureTextEntry = YES;
         _loginInputView2.textFieldAccount.delegate = self;
         _loginInputView2.imageViewCode.image = [UIImage imageNamed:@"login_password"];
          [_loginInputView2.arrowButton setImage:[UIImage imageNamed:@"login_password_noSee"] forState:UIControlStateNormal];

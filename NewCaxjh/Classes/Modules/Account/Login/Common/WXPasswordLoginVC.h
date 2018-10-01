@@ -7,15 +7,9 @@
 //
 
 #import "BaseViewController.h"
-
-@protocol WXPasswordLoginViewControllerDelegate <NSObject>
-
-- (void)toTab;
-
-@end
+#import "ResponseModel.h"
 
 @interface WXPasswordLoginVC : BaseViewController
 
-@property (nonatomic, readwrite, strong) id<WXPasswordLoginViewControllerDelegate> delegate;
 
 @end

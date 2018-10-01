@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "BaseTabBarViewController.h"
+#import "GuidePagesViewController.h"
 
 
 @interface AppDelegate ()
@@ -21,7 +22,17 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self.window makeKeyAndVisible];
-    self.window.rootViewController = [self mainTabBarController];
+    
+    //记载视图
+//    BOOL isFirstLogin = [[NSUserDefaults standardUserDefaults]boolForKey:@"isFirstLogin"];
+//    if (!isFirstLogin) {
+//        //首次登录
+//        self.window.rootViewController = [[GuidePagesViewController alloc]init];
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstLogin"];
+//    }else{
+//        self.window.rootViewController = [self mainTabBarController];
+//    }
+    self.window.rootViewController = [[GuidePagesViewController alloc]init];
     return YES;
 }
 

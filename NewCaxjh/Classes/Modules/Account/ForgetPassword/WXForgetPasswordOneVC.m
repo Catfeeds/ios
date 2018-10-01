@@ -18,6 +18,8 @@
 
 @property (nonatomic, readwrite, strong) NSTimer *codeTimer;
 @property (nonatomic, readwrite, assign) NSUInteger codeTime;
+
+@property (nonatomic ,copy)NSString *log_type;
 @end
 
 @implementation WXForgetPasswordOneVC
@@ -30,6 +32,8 @@
     [self.rightBarItem setTitleColor:selectedTexColor forState:UIControlStateNormal];
     
     [self setupUI];
+    
+    self.log_type = @"sms_password_reset";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -62,61 +66,63 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
 }
 -(void)didTouchGetCapatcha{
-//    if (self.loginInputView1.textFieldAccount.text.length != 11) {
-//        [self.view makeToast:@"请输入正确的手机号码" duration:1 position:CSToastPositionTop];
-//        return;
-//    }
-//    NSDictionary *dictionary = @{@"phone":self.loginInputView1.textFieldAccount.text, @"mode":@"find"};
-//    [PPNetworkHelper setRequestSerializer:PPRequestSerializerJSON];
-//    [PPNetworkHelper POST:kAPICaptchaURL parameters:dictionary success:^(id responseObject) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//        XJHCaptchaResponse *response = [XJHCaptchaResponse mj_objectWithKeyValues:responseObject];
-//        if ([response.type isEqualToString:@"success"]) {
-//            [self startCountTime];
-//            [self.view makeToast:response.content duration:1.0 position:CSToastPositionTop];
-//        } else {
-//            [self.view makeToast:response.content duration:1.0 position:CSToastPositionTop];
-//        }
-//
-//    } failure:^(NSError *error) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    }];
+    if (self.loginInputView1.textFieldAccount.text.length != 11) {
+        [self.view makeToast:@"请输入正确的手机号码" duration:1 position:CSToastPositionTop];
+        return;
+    }
+    [SVProgressHUD show];
+    NSDictionary *params = @{@"mobile":self.loginInputView1.textFieldAccount.text, @"type":@"3"};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPIGetCaptchaURL params:params succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        if ([response.code isEqualToString:@"200"]) {
+            [self startCountTime];
+            [self.view makeToast:@"短信发送成功" duration:1.0 position:CSToastPositionTop];
+            NSDictionary *dic = response.result;
+            self.log_type = dic[@"type"];
+        } else {
+            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        NSLog(@"%@",error);
+    }];
 }
 -(void)didDeleteBtnAction{
     self.loginInputView1.textFieldAccount.text = @"";
 }
+//验证验证码
 -(void)didTouchLoginButton{
-    WXForgetPasswordTwoVC *vc = [[WXForgetPasswordTwoVC alloc]init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
-//    if (self.loginInputView1.textFieldAccount.text.length != 11) {
-//        [self.view makeToast:@"请输入正确的手机号码" duration:1 position:CSToastPositionTop];
-//        return;
-//    }
-//    if(self.loginInputView2.textFieldAccount.text.length!=4){
-//        [self.view makeToast:@"请输入正确的短信验证码" duration:1 position:CSToastPositionTop];
-//        return;
-//    }
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    NSDictionary *dictionary = @{@"phone":self.loginInputView1.textFieldAccount.text, @"confirmCode":self.loginInputView2.textFieldAccount.text};
-//    [PPNetworkHelper setRequestSerializer:PPRequestSerializerJSON];
-//    [PPNetworkHelper POST:kAPICheckVerifyCodeURL parameters:dictionary success:^(id responseObject) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//        XJHCaptchaResponse *response = [XJHCaptchaResponse mj_objectWithKeyValues:responseObject];
-//        if ([response.type isEqualToString:@"success"]) {
-//            WXForgetPasswordTwoVC *vc = [[WXForgetPasswordTwoVC alloc]init];
-//            vc.hidesBottomBarWhenPushed = YES;
-//            vc.phone = responseObject[@"data"][@"phone"];
-//            vc.code = responseObject[@"data"][@"code"];
-//            [self.navigationController pushViewController:vc animated:YES];
-//
-//        } else {
-//            [self.view makeToast:response.content duration:1.0 position:CSToastPositionTop];
-//        }
-//
-//    } failure:^(NSError *error) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    }];
+    if (self.loginInputView1.textFieldAccount.text.length != 11) {
+        [self.view makeToast:@"请输入正确的手机号码" duration:1 position:CSToastPositionTop];
+        return;
+    }
+    if(self.loginInputView2.textFieldAccount.text.length != 6){
+        [self.view makeToast:@"请输入正确的短信验证码" duration:1 position:CSToastPositionTop];
+        return;
+    }
+    [SVProgressHUD show];
+    NSDictionary *params = @{@"mobile":self.loginInputView1.textFieldAccount.text, @"log_type":self.log_type,@"captcha":self.loginInputView2.textFieldAccount.text};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPICheckCaptchaURL params:params succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        if ([response.code isEqualToString:@"200"]) {
+            WXForgetPasswordTwoVC *vc = [[WXForgetPasswordTwoVC alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.phone = self.loginInputView1.textFieldAccount.text;
+            vc.code = self.log_type;
+            [self.navigationController pushViewController:vc animated:YES];
+        } else {
+            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        NSLog(@"%@",error);
+    }];
 }
 - (void)startCountTime {
     self.codeTime = 60;
@@ -152,7 +158,7 @@
         return textField.text.length < 11;
     }
     else if ([textField isEqual:self.loginInputView2.textFieldAccount] && ![string isEqualToString:@""]) {
-        return textField.text.length < 4;
+        return textField.text.length < 6;
     }
     return YES;
 }

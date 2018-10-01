@@ -17,20 +17,31 @@
 @property (nonatomic ,strong)UILabel *schoolLabel;
 @property (nonatomic ,strong)UIButton *schoolSelectBtn;
 @property (nonatomic ,strong)UITableView *tableView;
+@property (nonatomic ,weak)UIView *nologinView;
 @end
 
 @implementation SeeChildIndexViewController
 #pragma -- 生命周期
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.userInteractionEnabled = YES;
     [self setUpRightBarButtonItemWithTitle:@"回放"];
     self.view.backgroundColor = KbackgoundColor;
-    SeeChildNoLoginInVC *onloginVC = [[SeeChildNoLoginInVC alloc]init];
-    [self addChildViewController:onloginVC];
-    //[self.view addSubview:onloginVC.view];
-    
     [self setupUI];
+    //显示未登录页面
+    if (UserToken == nil || [UserToken isEqualToString:@""]) {
+        SeeChildNoLoginInVC *nologinVC = [[SeeChildNoLoginInVC alloc]init];
+        [self addChildViewController:nologinVC];
+        [self.view addSubview:nologinVC.view];
+        self.nologinView = nologinVC.view;
+    }
+    //登录监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:LoginSuccessNotificationName object:nil];
+    //退出监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dropOutSuccess) name:DropOutSuccessNotificationName object:nil];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -76,8 +87,27 @@
 }
 
 #pragma mark---点击事件
+-(void)dropOutSuccess{
+    if (self.nologinView) {
+        self.nologinView.hidden = NO;
+        [self.view bringSubviewToFront:self.nologinView];
+    }else{//不存在重新添加
+        SeeChildNoLoginInVC *nologinVC = [[SeeChildNoLoginInVC alloc]init];
+        [self addChildViewController:nologinVC];
+        [self.view addSubview:nologinVC.view];
+        self.nologinView = nologinVC.view;
+    }
+}
+-(void)loginSuccess{
+    if (self.nologinView) {
+        self.nologinView.hidden = YES;
+    }
+}
 //回放
 -(void)didtouchRightBarItem:(UIButton *)sender{
+    if (UserToken == nil || [UserToken isEqualToString:@""]) {
+        return;
+    }
     PlayBackViewController *vc = [[PlayBackViewController alloc]init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];

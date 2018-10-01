@@ -14,4 +14,8 @@
 //自定义导航栏右侧按钮
 -(void)setUpRightBarButtonItemWithTitle:(NSString *)title;
 -(void)didtouchRightBarItem:(UIButton *)sender;
+/*
+ *自定义导航栏右侧图片按钮
+ */
+-(void)setUpRightBarButtonItemWithImageName:(NSString *)name;
 @end

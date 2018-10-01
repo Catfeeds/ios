@@ -84,6 +84,8 @@
     
     [UIView animateWithDuration:0.5 animations:^{
         userIndex.view.transform = CGAffineTransformMakeTranslation(kScreenWidth, 0);
+    } completion:^(BOOL finished) {
+        userIndex.bgView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
     }];
 }
 //返回按钮
@@ -111,6 +113,18 @@
     rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     [rightBtn setTitle:title forState:UIControlStateNormal];
     [rightBtn setTitleColor:defaultTextColor forState:UIControlStateNormal];
+    [rightBtn addTarget:self action:@selector(didtouchRightBarItem:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    self.rightBarItem = rightBtn;
+}
+//自定义导航栏右侧图片按钮
+-(void)setUpRightBarButtonItemWithImageName:(NSString *)name{
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *image = [[UIImage imageNamed:name] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    rightBtn.frame = CGRectMake(0, 0, image.size.width+10, image.size.height);
+    [rightBtn setImage:image forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(didtouchRightBarItem:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
     self.navigationItem.rightBarButtonItem = rightItem;

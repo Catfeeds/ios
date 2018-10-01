@@ -20,14 +20,14 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated{
     
     if (selected == 0) {
-        NSLog(@"取消选中");
+        //NSLog(@"取消选中");
         if (_unSelectAction) {
             _unSelectAction();
         }
     }else{
         if (self.checkReSelected) {
             if (self.selected == 1 ){
-                NSLog(@"重复选中");
+                //NSLog(@"重复选中");
                 return;
             }
         }

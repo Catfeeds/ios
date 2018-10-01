@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AFNetworking.h>
 
 @interface WXAFNetworkCore : NSObject
 +(AFHTTPSessionManager *)shareManager;
@@ -22,7 +23,20 @@
                        params:(id)params
                  succeedBlock:(void(^)(id responseObj))succeedBlock
                     failBlock:(void(^)(id error))failBlock;
-//post请求--参数
+/**
+ *  发送post请求
+ *
+ *  @param URLString  请求的网址字符串
+ *  @param parameters 请求的参数
+ *  @param success    请求成功的回调
+ *  @param failure    请求失败的回调
+ */
++ (void)postHttpRequestWithURL:(NSString *)urlString
+                        params:(id)params
+                  succeedBlock:(void(^)(id responseObj))succeedBlock
+                     failBlock:(void(^)(id error))failBlock;
+
+//post请求--带进度
 + (void)postHttpRequestWithURL:(NSString *)urlString
                         params:(id)params
                  progressBlock:(void(^)(id downloadProgress))progressBlock

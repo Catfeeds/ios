@@ -10,6 +10,7 @@
 #import "WXLoginInputView.h"
 #import "WXForgetPasswordOneVC.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "WXTool.h"
 
 
 @interface WXPasswordLoginVC ()<UITextFieldDelegate>
@@ -55,10 +56,17 @@
         make.top.equalTo(self.loginInputView2.mas_bottom).with.offset(45);
         make.height.equalTo(@44);
     }];
-    [self.protocolBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).with.offset(-15);
-        make.centerX.equalTo(self.view);
-    }];
+    if (kIPhoneX) {
+        [self.protocolBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view).with.offset(-34);
+            make.centerX.equalTo(self.view);
+        }];
+    }else{
+        [self.protocolBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view).with.offset(-15);
+            make.centerX.equalTo(self.view);
+        }];
+    }
 }
 #pragma mark---事件
 //协议
@@ -84,89 +92,49 @@
     self.loginInputView1.textFieldAccount.text = @"";
 }
 -(void)didTouchLoginButton{
-    /*
+    
     if (self.loginInputView1.textFieldAccount.text.length == 0) {
         [self.view makeToast:@"账号不能为空" duration:1.0 position:CSToastPositionTop];
         return ;
     }
-//    if ([QTool checkPassword:self.loginInputView2.textFieldAccount.text] == NO) {
-//        [self.view makeToast:@"请输入6-16位的数字字母的密码" duration:1.0 position:CSToastPositionTop];
-//        return ;
-//    }
-    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    NSDictionary *dictionary = @{@"phone" : self.loginInputView1.textFieldAccount.text, @"password" : [self md5:self.loginInputView2.textFieldAccount.text],@"type":@"loginName"};
-    
-    [PPNetworkHelper setRequestSerializer:PPRequestSerializerJSON];
-    [PPNetworkHelper POST:kAPILoginURL parameters:dictionary success:^(id responseObject) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        XJHLoginResponse *loginResponse = [XJHLoginResponse mj_objectWithKeyValues:responseObject];
-        
-        if ([loginResponse.type isEqualToString:@"success"]) {
-            [[NSUserDefaults standardUserDefaults] setObject:responseObject[@"data"][@"id"] forKey:@"USER_ID"];
+    if ([WXTool checkPassword:self.loginInputView2.textFieldAccount.text] == NO) {
+        [self.view makeToast:@"请输入6-16位的数字字母的密码" duration:1.0 position:CSToastPositionTop];
+        return ;
+    }
+    NSDictionary *params = @{@"mobile":self.loginInputView1.textFieldAccount.text,@"password":self.loginInputView2.textFieldAccount.text,@"client":@"ios",@"log_type":@"",@"captcha":@""};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPILoginURL params:params succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        if ([response.code isEqualToString:@"200"]) {
+            [self.view makeToast:@"登录/注册成功" duration:1.0 position:CSToastPositionTop];
+            //用户信息存储
+            NSDictionary *dic = response.result;
+            //id
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"uid"] forKey:@"USER_ID"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [[NSUserDefaults standardUserDefaults] setObject:self.loginInputView1.textFieldAccount.text forKey:@"USER_PHONE"];
+            //手机号
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"member_mobile"] forKey:@"USER_PHONE"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            NSString *userDataPhone = responseObject[@"data"][@"phone"];
-            userDataPhone = [userDataPhone isEqual:[NSNull null]] ? @"" : userDataPhone;
-            [[NSUserDefaults standardUserDefaults] setObject:userDataPhone forKey:@"USER_DATA_PHONE"];
+            //token
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"key"] forKey:@"USER_TOKEN"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            NSString *userDataLoginName = responseObject[@"data"][@"loginName"];
-            userDataLoginName = [userDataLoginName isEqual:[NSNull null]] ? @"" : userDataLoginName;
-            [[NSUserDefaults standardUserDefaults] setObject:userDataLoginName forKey:@"USER_DATA_LOGINNAME"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            // 0主账户 1子账户
-            NSString *userDataIsMain = responseObject[@"data"][@"isMain"];
-            userDataIsMain = [userDataIsMain isEqual:[NSNull null]] ? @"" : userDataIsMain;
-            [[NSUserDefaults standardUserDefaults] setObject:userDataIsMain forKey:@"USER_DATA_ISMAIN"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            // 0老师 1家长 2学生
-            NSString *userDataType = responseObject[@"data"][@"type"];
-            userDataType = [userDataType isEqual:[NSNull null]] ? @"" : userDataType;
-            [[NSUserDefaults standardUserDefaults] setObject:userDataType forKey:@"USER_DATA_TYPE"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            NSString *userDataToken = responseObject[@"data"][@"token"];
-            userDataToken = [userDataToken isEqual:[NSNull null]] ? @"" : userDataToken;
-            [[NSUserDefaults standardUserDefaults] setObject:userDataToken forKey:@"USER_DATA_TOKEN"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            NSString *userNickName = responseObject[@"data"][@"nickName"];
-            userNickName = [userDataPhone isEqual:[NSNull null]] ? @"" : userDataPhone;
-            if (userNickName.length > 0) {
-                [[NSUserDefaults standardUserDefaults] setObject:userDataPhone forKey:@"USER_DATA_NAME"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-            }
-            NSString *userName = responseObject[@"data"][@"name"];
-            userName = [userName isEqual:[NSNull null]] ? @"" : userName;
-            [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"USER_NAME"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            //绑定孩子
-            [[NSUserDefaults standardUserDefaults] setObject:@{@"name":@""} forKey:STUENDTS_SELECT];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self.view makeToast:@"登录成功" duration:1.0 position:CSToastPositionTop];
-            [self performSelector:@selector(navigateToTab) withObject:nil afterDelay:2.0];
+            //跳转主页面
+            [self performSelector:@selector(navigateToTab) withObject:nil afterDelay:1.0];
         } else {
-            [self.view makeToast:loginResponse.content duration:1.0 position:CSToastPositionTop];
+            [self.view makeToast:response.message];
         }
-        
-    } failure:^(NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [self.view makeToast:error.userInfo[@"NSLocalizedDescription"] duration:1.0 position:CSToastPositionTop];
-    }];*/
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        NSLog(@"%@",error);
+    }];
+    
 }
 #pragma mark -
 - (void)navigateToTab {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(toTab)]) {
-        [self.delegate toTab];
-    }
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoginSuccessNotificationName object:nil];
 }
 #pragma mark--textFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

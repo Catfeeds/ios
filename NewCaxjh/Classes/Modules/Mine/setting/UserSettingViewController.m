@@ -32,7 +32,11 @@
 }
 #pragma mark---点击事件
 -(void)didTouchSignOutButton{
-    
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"USER_TOKEN"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    //发送退出通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:DropOutSuccessNotificationName object:nil];
 }
 
 #pragma mark---UItableViewDelegate

@@ -21,6 +21,7 @@ PODS:
     - SDWebImage/Core (= 4.4.1)
   - SDWebImage/Core (4.4.1)
   - SVProgressHUD (2.2.5)
+  - Toast (4.0.0)
 
 DEPENDENCIES:
   - AFNetworking
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - MJRefresh
   - SDWebImage
   - SVProgressHUD
+  - Toast (~> 4.0.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -38,6 +40,7 @@ SPEC REPOS:
     - MJRefresh
     - SDWebImage
     - SVProgressHUD
+    - Toast
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
@@ -46,7 +49,8 @@ SPEC CHECKSUMS:
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 
-PODFILE CHECKSUM: 3119caf919f573581ccc216cba88a69d47d4c180
+PODFILE CHECKSUM: 19f2dd0b2f9cd45fce27f2c73692ad30b4ec8d0d
 
 COCOAPODS: 1.5.3

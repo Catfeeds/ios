@@ -20,6 +20,8 @@
 
 @property (nonatomic, readwrite, strong) NSTimer *codeTimer;
 @property (nonatomic, readwrite, assign) NSUInteger codeTime;
+
+@property (nonatomic ,copy)NSString *log_type;
 @end
 
 @implementation WXCaptchaLoginVC
@@ -32,6 +34,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupUI];
     self.loginInputView1.textFieldAccount.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"USER_PHONE"];
+    self.log_type = @"sms_register";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -63,47 +66,57 @@
         make.top.equalTo(self.loginButton.mas_bottom).with.offset(10);
         make.height.equalTo(@44);
     }];
-    [self.protocolBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).with.offset(-15);
-        make.centerX.equalTo(self.view);
-    }];
+    if (kIPhoneX) {
+        [self.protocolBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view).with.offset(-34);
+            make.centerX.equalTo(self.view);
+        }];
+    }else{
+        [self.protocolBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view).with.offset(-15);
+            make.centerX.equalTo(self.view);
+        }];
+    }
 }
 #pragma mark---事件
 //协议
 -(void)didTouchProtocolButton{
     
 }
+//密码登录
 -(void)didTouchPasswordLogin{
     WXPasswordLoginVC *vc = [[WXPasswordLoginVC alloc]init];
     vc.hidesBottomBarWhenPushed = YES;
-    vc.delegate = self.delegate;
     [self.navigationController pushViewController:vc animated:YES];
 }
+//获取验证码
 -(void)didTouchGetCapatcha{
-//    if (self.loginInputView1.textFieldAccount.text.length != 11) {
-//        [self.view makeToast:@"请输入正确的手机号码" duration:1 position:CSToastPositionTop];
-//    }else{
-//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//        NSDictionary *dictionary = @{@"phone":self.loginInputView1.textFieldAccount.text, @"mode":@"login"};
-//        [PPNetworkHelper setRequestSerializer:PPRequestSerializerJSON];
-//        [PPNetworkHelper POST:kAPICaptchaURL parameters:dictionary success:^(id responseObject) {
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//            XJHCaptchaResponse *response = [XJHCaptchaResponse mj_objectWithKeyValues:responseObject];
-//            if ([response.type isEqualToString:@"success"]) {
-//                [self startCountTime];
-//                [self.view makeToast:response.content duration:1.0 position:CSToastPositionTop];
-//            } else {
-//                [self.view makeToast:response.content duration:1.0 position:CSToastPositionTop];
-//            }
-//
-//        } failure:^(NSError *error) {
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//        }];
-//    }
+    if (self.loginInputView1.textFieldAccount.text.length != 11) {
+        [self.view makeToast:@"请输入正确的手机号码"];
+    }else{
+        [SVProgressHUD show];
+        NSDictionary *params = @{@"mobile":self.loginInputView1.textFieldAccount.text, @"type":@"1"};
+        [WXAFNetworkCore postHttpRequestWithURL:kAPIGetCaptchaURL params:params succeedBlock:^(id responseObj) {
+            [SVProgressHUD dismiss];
+            ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+            [self.loginInputView1.textFieldAccount resignFirstResponder];
+            if ([response.code isEqualToString:@"200"]) {
+                [self startCountTime];
+                [self.view makeToast:@"短信发送成功" duration:1.0 position:CSToastPositionTop];
+                NSDictionary *dic = response.result;
+                self.log_type = dic[@"type"];
+            } else {
+                [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+            }
+        } failBlock:^(id error) {
+            [SVProgressHUD dismiss];
+            [self.loginInputView1.textFieldAccount resignFirstResponder];
+            NSLog(@"%@",error);
+        }];
+    }
 }
 - (void)startCountTime {
     self.codeTime = 60;
-    
     self.loginInputView2.arrowButton.enabled = NO;
     UIBackgroundTaskIdentifier bgTask = UIBackgroundTaskInvalid;
     UIApplication *app = [UIApplication sharedApplication];
@@ -126,88 +139,55 @@
     self.codeTime--;
     
 }
-
+//删除
 -(void)didDeleteBtnAction{
     self.loginInputView1.textFieldAccount.text = @"";
 }
+//点击登录
 -(void)didTouchLoginButton{
     if (self.loginInputView1.textFieldAccount.text.length != 11) {
-//        [self.view makeToast:@"请输入正确的手机号码" duration:1 position:CSToastPositionTop];
+        [self.view makeToast:@"请输入正确的手机号码" duration:1 position:CSToastPositionTop];
         return;
     }
-    if(self.loginInputView2.textFieldAccount.text.length!=4){
-//        [self.view makeToast:@"请输入正确的短信验证码" duration:1 position:CSToastPositionTop];
+    if(self.loginInputView2.textFieldAccount.text.length != 6){
+        [self.view makeToast:@"请输入正确的短信验证码" duration:1 position:CSToastPositionTop];
         return;
     }
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    NSDictionary *dictionary = @{@"phone" : self.loginInputView1.textFieldAccount.text, @"password" : self.loginInputView2.textFieldAccount.text,@"type":@"phone"};
-//    [PPNetworkHelper setRequestSerializer:PPRequestSerializerJSON];
-//    [PPNetworkHelper POST:kAPILoginURL parameters:dictionary success:^(id responseObject) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//
-//        XJHLoginResponse *loginResponse = [XJHLoginResponse mj_objectWithKeyValues:responseObject];
-//
-//        if ([loginResponse.type isEqualToString:@"success"]) {
-//
-//            [[NSUserDefaults standardUserDefaults] setObject:responseObject[@"data"][@"id"] forKey:@"USER_ID"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            [[NSUserDefaults standardUserDefaults] setObject:self.loginInputView1.textFieldAccount.text forKey:@"USER_PHONE"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            NSString *userDataPhone = responseObject[@"data"][@"phone"];
-//            userDataPhone = [userDataPhone isEqual:[NSNull null]] ? @"" : userDataPhone;
-//            [[NSUserDefaults standardUserDefaults] setObject:userDataPhone forKey:@"USER_DATA_PHONE"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            NSString *userDataLoginName = responseObject[@"data"][@"loginName"];
-//            userDataLoginName = [userDataLoginName isEqual:[NSNull null]] ? @"" : userDataLoginName;
-//            [[NSUserDefaults standardUserDefaults] setObject:userDataLoginName forKey:@"USER_DATA_LOGINNAME"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            // 0主账户 1子账户
-//            NSString *userDataIsMain = responseObject[@"data"][@"isMain"];
-//            userDataIsMain = [userDataIsMain isEqual:[NSNull null]] ? @"" : userDataIsMain;
-//            [[NSUserDefaults standardUserDefaults] setObject:userDataIsMain forKey:@"USER_DATA_ISMAIN"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            // 0老师 1家长 2学生
-//            NSString *userDataType = responseObject[@"data"][@"type"];
-//            userDataType = [userDataType isEqual:[NSNull null]] ? @"" : userDataType;
-//            [[NSUserDefaults standardUserDefaults] setObject:userDataType forKey:@"USER_DATA_TYPE"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            NSString *userDataToken = responseObject[@"data"][@"token"];
-//            userDataToken = [userDataToken isEqual:[NSNull null]] ? @"" : userDataToken;
-//            [[NSUserDefaults standardUserDefaults] setObject:userDataToken forKey:@"USER_DATA_TOKEN"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            NSString *userNickName = responseObject[@"data"][@"nickName"];
-//            userNickName = [userDataPhone isEqual:[NSNull null]] ? @"" : userDataPhone;
-//            if (userNickName.length > 0) {
-//                [[NSUserDefaults standardUserDefaults] setObject:userDataPhone forKey:@"USER_DATA_NAME"];
-//                [[NSUserDefaults standardUserDefaults] synchronize];
-//            }
-//            //绑定孩子
-//            [[NSUserDefaults standardUserDefaults] setObject:@{@"name":@""} forKey:STUENDTS_SELECT];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            [self.view makeToast:@"登录成功" duration:1.0 position:CSToastPositionTop];
-//            [self performSelector:@selector(navigateToTab) withObject:nil afterDelay:2.0];
-//        } else {
-//            [self.view makeToast:loginResponse.content duration:1.0 position:CSToastPositionTop];
-//        }
-//
-//    } failure:^(NSError *error) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    }];
+    //登录
+    NSDictionary *params = @{@"mobile":self.loginInputView1.textFieldAccount.text,@"password":@"",@"client":@"ios",@"log_type":self.log_type,@"captcha":self.loginInputView2.textFieldAccount.text};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPILoginURL params:params succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        if ([response.code isEqualToString:@"200"]) {
+            [self.view makeToast:@"登录/注册成功" duration:1.0 position:CSToastPositionTop];
+            //用户信息存储
+            NSDictionary *dic = response.result;
+            //id
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"uid"] forKey:@"USER_ID"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //手机号
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"member_mobile"] forKey:@"USER_PHONE"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //token
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"key"] forKey:@"USER_TOKEN"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //跳转主页面
+            [self performSelector:@selector(navigateToTab) withObject:nil afterDelay:1.0];
+        } else {
+            [self.view makeToast:response.message];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        [self.loginInputView1.textFieldAccount resignFirstResponder];
+        NSLog(@"%@",error);
+    }];
 }
-                                             
+
 #pragma mark -
 - (void)navigateToTab {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(toTab)]) {
-        [self.delegate toTab];
-    }
+    [self.navigationController popViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoginSuccessNotificationName object:nil];
 }
 #pragma mark--textFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -218,10 +198,11 @@
         return textField.text.length < 11;
     }
     else if ([textField isEqual:self.loginInputView2.textFieldAccount] && ![string isEqualToString:@""]) {
-        return textField.text.length < 4;
+        return textField.text.length < 6;
     }
     return YES;
 }
+
 
 #pragma mark---UI
 -(void)setupUI{
@@ -232,6 +213,7 @@
     [self.view addSubview:self.passwordButton];
     [self.view addSubview:self.protocolBtn];
 }
+#pragma mark---懒加载
 - (UIImageView *)logoImageView {
     if (!_logoImageView) {
         _logoImageView = [[UIImageView alloc] init];
@@ -262,6 +244,7 @@
         [_loginInputView2.arrowButton setTitle:@" 获取验证码 " forState:UIControlStateNormal];
         [_loginInputView2.arrowButton setBorder:selectedTexColor width:1];
         _loginInputView2.arrowButton.radius = 15;
+        _loginInputView2.arrowButton.titleLabel.font = kFont(13);
         [_loginInputView2.arrowButton addTarget:self action:@selector(didTouchGetCapatcha) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginInputView2;
