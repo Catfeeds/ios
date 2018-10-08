@@ -85,22 +85,51 @@
         return ;
     }
     [SVProgressHUD show];
-    NSDictionary *params = @{@"mobile":self.phone,@"password":@"",@"client":@"ios",@"log_type":self.code,@"captcha":self.loginInputView1.textFieldAccount.text};
-    [WXAFNetworkCore postHttpRequestWithURL:kAPILoginURL params:params succeedBlock:^(id responseObj) {
-        [SVProgressHUD dismiss];
+    NSDictionary *params = @{@"mobile":self.phone,@"password":self.loginInputView1.textFieldAccount.text,@"re_password":self.loginInputView2.textFieldAccount.text,@"client":@"ios",@"log_type":self.code};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPIForgetPassURL params:params succeedBlock:^(id responseObj) {
         ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
-        [self.loginInputView1.textFieldAccount resignFirstResponder];
         if ([response.code isEqualToString:@"200"]) {
-            [self.view makeToast:@"重置密码成功" duration:1.0 position:CSToastPositionTop];
-            [self performSelector:@selector(pop) withObject:nil afterDelay:1];
+            [self.view makeToast:@"找回密码成功" duration:1.0 position:CSToastPositionTop];
+            //用户信息存储
+            NSDictionary *dic = response.result;
+            //id
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"uid"] forKey:@"USER_ID"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //手机号
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"member_mobile"] forKey:@"USER_PHONE"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //token
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"key"] forKey:@"USER_TOKEN"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //头像
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"avator"] forKey:@"USER_HeaderImage"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //用户名
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"is_owner"] forKey:@"USER_IsOwner"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //主账号
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"viceAccount"] forKey:@"USER_ViceAccount"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //副账号
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"viceAccount"] forKey:@"USER_ViceAccount"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //用户类型：1家长，2老师，3其他未知
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"member_identity"] forKey:@"USER_TYPE"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //跳转主页面
+            [self performSelector:@selector(navigateToTab) withObject:nil afterDelay:1.0];
         } else {
-            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+            [self.view makeToast:response.message];
         }
+        [SVProgressHUD dismiss];
     } failBlock:^(id error) {
         [SVProgressHUD dismiss];
-        [self.loginInputView1.textFieldAccount resignFirstResponder];
         NSLog(@"%@",error);
     }];
+}
+- (void)navigateToTab {
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoginSuccessNotificationName object:nil];
 }
 - (void)pop {
     for (UIViewController *controller in self.navigationController.viewControllers) {

@@ -18,6 +18,9 @@
 #define UserID [[NSUserDefaults standardUserDefaults] stringForKey:@"USER_ID"]
 #define UserToken [[NSUserDefaults standardUserDefaults] objectForKey:@"USER_TOKEN"]
 #define UserPhone [[NSUserDefaults standardUserDefaults] objectForKey:@"USER_PHONE"]
+#define USERHeaderImage [[NSUserDefaults standardUserDefaults] objectForKey:@"USER_HeaderImage"]
+//副账号
+#define USER_ViceAccount  [[NSUserDefaults standardUserDefaults] objectForKey:@"USER_ViceAccount"]
 
 //通知名称
 #define LoginSuccessNotificationName  @"LoginSuccessNotificationName"
@@ -34,15 +37,23 @@
 
 //注册
 #define kAPIRegistURL [NSString stringWithFormat:@"%@/app/register",BaseURL]
-//找回密码
-#define kAPIForgetPassURL [NSString stringWithFormat:@"%@/app/findPassword",BaseURL]
-//设置密码
-//#define kAPISettingPassURL [NSString stringWithFormat:@"%@/app/newPassword?token=%@",BaseURL,UserToken]
+//重置密码
+#define kAPIForgetPassURL [NSString stringWithFormat:@"%@/login/password_reset.html",BaseURL]
 //修改密码
 //#define kAPIChangePassURL [NSString stringWithFormat:@"%@/webadmin/changePassword?token=%@&dt=0&u=%@",UserToken, currentMemberID]]
 
 //设置页面-是否设置密码
 //#define kAPISureSettingPassURL [NSString stringWithFormat:@"%@/app/verifyHasPassword?token=%@",BaseURL,UserToken]
+
+
+/********************* 个人中心 ********************************/
+//钱包
+#define kAPIWalletDataURL [NSString stringWithFormat:@"%@/Member/self_assets.html?key=%@",BaseURL,UserToken]
+
+
+/********************* 发现 ********************************/
+//主页面
+#define kAPIDiscoveryListURL [NSString stringWithFormat:@"%@/Common/navicon.html",BaseURL]
 
 
 

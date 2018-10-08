@@ -20,13 +20,14 @@ static AFHTTPSessionManager *manager=nil;
         if (manager == nil) {
             manager = [AFHTTPSessionManager manager];
             //请求
-            manager.requestSerializer = [AFJSONRequestSerializer serializer];
+            //manager.requestSerializer = [AFJSONRequestSerializer serializer];
             //响应
             manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+            
             //超时时间
-//            [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-//            manager.requestSerializer.timeoutInterval = 60.0;//设置请求超时时间
-//            [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+            [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+            manager.requestSerializer.timeoutInterval = 60.0;//设置请求超时时间
+            [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
         }
     });
     return manager;
@@ -66,9 +67,7 @@ static AFHTTPSessionManager *manager=nil;
                         params:(id)params
                   succeedBlock:(void(^)(id responseObj))succeedBlock
                      failBlock:(void(^)(id error))failBlock{
-    
     AFHTTPSessionManager *manager = [WXAFNetworkCore shareManager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

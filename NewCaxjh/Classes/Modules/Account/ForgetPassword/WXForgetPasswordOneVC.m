@@ -32,8 +32,7 @@
     [self.rightBarItem setTitleColor:selectedTexColor forState:UIControlStateNormal];
     
     [self setupUI];
-    
-    self.log_type = @"sms_password_reset";
+    self.log_type = @"";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -95,6 +94,7 @@
 }
 //验证验证码
 -(void)didTouchLoginButton{
+    
     if (self.loginInputView1.textFieldAccount.text.length != 11) {
         [self.view makeToast:@"请输入正确的手机号码" duration:1 position:CSToastPositionTop];
         return;
@@ -108,7 +108,6 @@
     [WXAFNetworkCore postHttpRequestWithURL:kAPICheckCaptchaURL params:params succeedBlock:^(id responseObj) {
         [SVProgressHUD dismiss];
         ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
-        [self.loginInputView1.textFieldAccount resignFirstResponder];
         if ([response.code isEqualToString:@"200"]) {
             WXForgetPasswordTwoVC *vc = [[WXForgetPasswordTwoVC alloc]init];
             vc.hidesBottomBarWhenPushed = YES;
@@ -120,7 +119,6 @@
         }
     } failBlock:^(id error) {
         [SVProgressHUD dismiss];
-        [self.loginInputView1.textFieldAccount resignFirstResponder];
         NSLog(@"%@",error);
     }];
 }

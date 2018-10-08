@@ -7,4 +7,5 @@ target 'NewCaxjh' do
   pod 'MJRefresh'
   pod 'SVProgressHUD'
   pod 'Toast', '~> 4.0.0'
+  pod 'IQKeyboardManager', '~> 6.1.0'
 end

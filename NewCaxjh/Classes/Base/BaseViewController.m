@@ -45,8 +45,20 @@
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithHex:@"#242424"],
                                                 NSFontAttributeName : [UIFont fontWithName:@"Helvetica" size:18]}];
-    if (self.navigationController.viewControllers.count > 1) {
-        
+    
+    if (self.avatarBarItem) {
+        if (UserToken == nil || [UserToken isEqualToString:@""]) {
+            [self.avatarBarItem setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateNormal];
+            [self.avatarBarItem setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateHighlighted];
+        }else{
+            UIImage *image  =[UIImage imageWithData:[NSData dataWithContentsOfURL: [NSURL URLWithString:USERHeaderImage]]];
+            CGSize asize = self.avatarBarItem.size;
+            UIGraphicsBeginImageContext(asize);
+            [image drawInRect:CGRectMake(0, 0, asize.width, asize.height)];
+            UIImage *newimage = UIGraphicsGetImageFromCurrentImageContext();
+            [self.avatarBarItem setImage:newimage forState:UIControlStateNormal];
+            UIGraphicsEndImageContext();
+        }
     }
 }
 
@@ -66,9 +78,16 @@
 //头像按钮
 -(void)setupLeftAvatarButtonItem{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 31, 31);
-    [button setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateNormal];
-    [button setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateHighlighted];
+    self.avatarBarItem = button;
+    button.frame = CGRectMake(0, 0, 32, 32);
+    if (UserToken == nil || [UserToken isEqualToString:@""]) {
+        [button setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateHighlighted];
+    }else{
+        [button sd_setImageWithURL:[NSURL URLWithString:USERHeaderImage] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"header_default"] options:SDWebImageRefreshCached];
+        [button sd_setImageWithURL:[NSURL URLWithString:USERHeaderImage] forState:UIControlStateHighlighted placeholderImage:[UIImage imageNamed:@"header_default"] options:SDWebImageRefreshCached];
+    }
+    button.radius = 16;
     [button addTarget:self action:@selector(avatarButtonClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.leftBarButtonItem = barButtonItem;
@@ -91,14 +110,15 @@
 //返回按钮
 -(void)setupBackBarButtonItem{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 44, 44);
+    self.popBarItem = button;
+    button.frame = CGRectMake(0, 0, 32, 32);
+    button.radius = 16;
     [button setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [button setImage:[UIImage imageNamed:@"back"] forState:UIControlStateHighlighted];
     [button setImageEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
     [button addTarget:self action:@selector(popButtonClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.leftBarButtonItem = barButtonItem;
-    self.popBarItem = button;
 }
 -(void)popButtonClick{
     [self.navigationController popViewControllerAnimated:YES];
@@ -119,7 +139,7 @@
     
     self.rightBarItem = rightBtn;
 }
-//自定义导航栏右侧图片按钮
+    //自定义导航栏右侧图片按钮
 -(void)setUpRightBarButtonItemWithImageName:(NSString *)name{
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image = [[UIImage imageNamed:name] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

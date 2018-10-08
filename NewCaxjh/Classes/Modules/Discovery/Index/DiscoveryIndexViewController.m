@@ -30,6 +30,8 @@
     NSArray *array1= [NSArray arrayWithObjects:@{@"name":@"晒心情",@"imgUrl":@"user_order"},@{@"name":@"直播间",@"imgUrl":@"user_realname"},@{@"name":@"商学院",@"imgUrl":@"user_binding"},@{@"name":@"教育商城",@"imgUrl":@"user_manager"}, nil];
     NSArray *array2= [NSArray arrayWithObjects:@{@"name":@"幼儿园简介",@"imgUrl":@"user_courseware"},@{@"name":@"签到",@"imgUrl":@"user_wallet"},@{@"name":@"校车",@"imgUrl":@"user_collection"},@{@"name":@"宝宝食谱",@"imgUrl":@"user_education"},@{@"name":@"学校课程",@"imgUrl":@"user_customer"}, nil];
     self.dataList = [NSArray arrayWithObjects:@{@"title":@"",@"list":array1},@{@"title":@"家校通",@"list":array2},@{@"title":@"",@"list":@[@{@"name":@"消息中心",@"imgUrl":@"user_customer"},]}, nil];
+    
+    [self requestDiscoveryListData];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -39,6 +41,25 @@
         make.bottom.equalTo(self.view.mas_bottom);
         make.left.equalTo(self.view).offset(15);
         make.right.equalTo(self.view).offset(-15);
+    }];
+}
+
+#pragma mark---数据
+-(void)requestDiscoveryListData{
+    [SVProgressHUD show];
+    NSDictionary *parmas = @{@"type":@"2"};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPIDiscoveryListURL params:parmas succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        if ([response.code isEqualToString:@"200"]) {
+            NSArray *result = response.result;
+            NSLog(@"---%@",result);
+        } else {
+            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        NSLog(@"%@",error);
     }];
 }
 

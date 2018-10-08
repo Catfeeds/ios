@@ -154,7 +154,7 @@
         return;
     }
     //登录
-    NSDictionary *params = @{@"mobile":self.loginInputView1.textFieldAccount.text,@"password":@"",@"client":@"ios",@"log_type":self.log_type,@"captcha":self.loginInputView2.textFieldAccount.text};
+    NSDictionary *params = @{@"mobile":self.loginInputView1.textFieldAccount.text,@"password":@"",@"client":@"ios",@"log_type":self.log_type,@"captcha":self.loginInputView2.textFieldAccount.text,@"is_pass":@"2"};
     [WXAFNetworkCore postHttpRequestWithURL:kAPILoginURL params:params succeedBlock:^(id responseObj) {
         [SVProgressHUD dismiss];
         ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
@@ -171,6 +171,21 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             //token
             [[NSUserDefaults standardUserDefaults] setObject:dic[@"key"] forKey:@"USER_TOKEN"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //头像
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"avator"] forKey:@"USER_HeaderImage"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //用户名
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"is_owner"] forKey:@"USER_IsOwner"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //主账号
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"viceAccount"] forKey:@"USER_ViceAccount"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //副账号
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"viceAccount"] forKey:@"USER_ViceAccount"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //用户类型：1家长，2老师，3其他未知
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"member_identity"] forKey:@"USER_TYPE"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             //跳转主页面
             [self performSelector:@selector(navigateToTab) withObject:nil afterDelay:1.0];

@@ -32,6 +32,9 @@
     self.view.backgroundColor = KbackgoundColor;
     //ui
     [self setupUI];
+    
+    //数据
+    [self requestWalletData];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -87,7 +90,26 @@
     }];
     
 }
-
+#pragma mark---数据
+-(void)requestWalletData{
+    [SVProgressHUD show];
+    [WXAFNetworkCore postHttpRequestWithURL:kAPIWalletDataURL params:nil succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        if ([response.code isEqualToString:@"200"]) {
+            NSDictionary *result = response.result;
+            self.accountLabel.text = result[@"available_predeposit"];
+            self.expirationAccountLabel.text = result[@"freeze_predeposit"];
+            self.incomeLabel.text = result[@"income"];
+            self.expenditureLabel.text = result[@"reflect"];
+        } else {
+            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        NSLog(@"%@",error);
+    }];
+}
 
 #pragma mark--setupUI
 -(void)setupUI{
@@ -122,6 +144,10 @@
     expenditurePrompt.font = kFont(13);
     expenditurePrompt.textAlignment = NSTextAlignmentCenter;
     [self.detailView addSubview:expenditurePrompt];
+    //支出图片
+    UIImageView *imgV = [UIImageView new];
+    imgV.image = [UIImage imageNamed:@"wallet_tx"];
+    [self.detailView addSubview:imgV];
     
     UIView *separateLine = [UIView new];
     separateLine.backgroundColor = KLineColor;
@@ -135,14 +161,16 @@
         make.width.equalTo(@3);
     }];
     [incomePrompt mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(self.detailView).multipliedBy(0.5).offset(-5);
         make.bottom.equalTo(self.detailView).offset(-13);
-        make.left.equalTo(self.detailView);
+        make.centerX.equalTo(self.incomeLabel.mas_centerX);
     }];
     [expenditurePrompt mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(self.detailView).multipliedBy(0.5).offset(-5);
         make.bottom.equalTo(self.detailView).offset(-13);
-        make.right.equalTo(self.detailView);
+        make.centerX.equalTo(self.expenditureLabel.mas_centerX);
+    }];
+    [imgV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(expenditurePrompt.mas_centerY);
+        make.left.equalTo(expenditurePrompt.mas_right).offset(4);
     }];
 }
 #pragma mark--懒加载

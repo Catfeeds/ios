@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "BaseTabBarViewController.h"
 #import "GuidePagesViewController.h"
+#import <IQKeyboardManager.h>
 
 
 @interface AppDelegate ()
@@ -24,15 +25,24 @@
     [self.window makeKeyAndVisible];
     
     //记载视图
-//    BOOL isFirstLogin = [[NSUserDefaults standardUserDefaults]boolForKey:@"isFirstLogin"];
-//    if (!isFirstLogin) {
-//        //首次登录
-//        self.window.rootViewController = [[GuidePagesViewController alloc]init];
-//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstLogin"];
-//    }else{
-//        self.window.rootViewController = [self mainTabBarController];
-//    }
-    self.window.rootViewController = [[GuidePagesViewController alloc]init];
+    BOOL isFirstLogin = [[NSUserDefaults standardUserDefaults]boolForKey:@"isFirstLogin"];
+    if (!isFirstLogin) {
+        //首次登录
+        self.window.rootViewController = [[GuidePagesViewController alloc]init];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstLogin"];
+    }else{
+        self.window.rootViewController = [self mainTabBarController];
+    }
+    
+    //IQKeyboardManager
+    // 控制整个功能是否启用
+    [IQKeyboardManager sharedManager].enable = YES;// 控制整个功能是否启用
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;// 控制点击背景是否收起键盘
+    [IQKeyboardManager sharedManager].shouldToolbarUsesTextFieldTintColor = YES;// 控制键盘上的工具条文字颜色是否用户自定义
+    [IQKeyboardManager sharedManager].toolbarManageBehaviour = IQAutoToolbarBySubviews; // 有多个输入框时，可以通过点击Toolbar 上的“前一个”“后一个”按钮来实现移动到不同的输入框
+    [IQKeyboardManager sharedManager].enableAutoToolbar = YES; // 控制是否显示键盘上的工具条
+    
+    
     return YES;
 }
 

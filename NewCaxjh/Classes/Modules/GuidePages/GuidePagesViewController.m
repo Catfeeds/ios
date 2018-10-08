@@ -29,20 +29,27 @@
 -(void)viewDidLayoutSubviews{
     if (kIPhoneX) {
         [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view).offset(-154);
+            make.bottom.equalTo(self.view).offset(-174);
             make.centerX.equalTo(self.view);
             make.height.equalTo(@12);
         }];
-    }else{
+    }else if (IPHONE6PLUS){
         [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view).offset(-120);
+            make.bottom.equalTo(self.view).offset(-190);
+            make.centerX.equalTo(self.view);
+            make.height.equalTo(@12);
+        }];
+    } else{
+        [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view).offset(-140);
             make.centerX.equalTo(self.view);
             make.height.equalTo(@12);
         }];
     }
 }
-//点击方法
--(void)tapAction:(UITapGestureRecognizer *)tap{
+
+//立即体验
+-(void)experienceNowClick{
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     keyWindow.rootViewController =[[BaseTabBarViewController alloc] init];
 }
@@ -52,12 +59,8 @@
     //获得偏移量
     float offsetX =  scrollView.contentOffset.x;
     //判断左右滚动的标识,1向右滑动，0向左滑动
-    NSInteger flag = offsetX /kScreenWidth >= 1 ? 1 : 0;
-    if (flag) {
-        self.pageControl.currentPage = self.pageControl.currentPage+1;
-    }else{
-        self.pageControl.currentPage = self.pageControl.currentPage-1;
-    }
+    NSInteger flag = offsetX /kScreenWidth;
+    self.pageControl.currentPage = flag;
 }
 
 #pragma mark---UI
@@ -71,13 +74,34 @@
         imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"guide_page%d.png",i+1]];
         if (i == 2) {
             imageView.userInteractionEnabled = YES;
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
-            tap.numberOfTapsRequired = 1;
-            tap.numberOfTouchesRequired = 1;
-            [imageView addGestureRecognizer:tap];
+            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btn setTitle:@"立即体验" forState:UIControlStateNormal];
+            [btn setTitleColor:selectedTexColor forState:UIControlStateNormal];
+            btn.titleLabel.font = kFont(18);
+            [btn setBorder:selectedTexColor width:0.5];
+            [btn addTarget:self action:@selector(experienceNowClick) forControlEvents:UIControlEventTouchUpInside];
+            [imageView addSubview:btn];
+            if (kIPhoneX) {
+                btn.radius = 23;
+                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.equalTo(imageView);
+                    make.top.equalTo(self.pageControl.mas_bottom).offset(20);
+                    make.height.equalTo(@46);
+                    make.width.equalTo(@150);
+                }];
+            }else{
+                btn.radius = 18;
+                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.equalTo(imageView);
+                    make.top.equalTo(self.pageControl.mas_bottom).offset(20);
+                    make.height.equalTo(@36);
+                    make.width.equalTo(@150);
+                }];
+            }
         }
     }
 }
+
 
 #pragma MARK--懒加载
 -(UIScrollView *)scrollView{

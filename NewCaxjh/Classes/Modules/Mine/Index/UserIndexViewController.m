@@ -10,6 +10,7 @@
 #import "UserSettingViewController.h"
 #import "UserWalletViewController.h"
 #import "RealNameViewController.h"
+#import "WXCaptchaLoginVC.h"
 
 @interface UserIndexViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong)UITableView *tableView;
@@ -50,14 +51,19 @@
         self.loginBtn.hidden = NO;
         self.phoneLabel.hidden = YES;
         self.accountAddBtn.hidden = YES;
+        [self.avatarButton setImage:[UIImage imageNamed:@"tab_user"] forState:UIControlStateNormal];
     }else{
-        self.tableViewHeaderBg.image = [UIImage imageNamed:@"user_login_bg"];
+        NSURL *imgUrl = [NSURL URLWithString:USERHeaderImage];
+        [self.avatarButton sd_setImageWithURL:imgUrl forState:(UIControlState)UIControlStateNormal placeholderImage:[UIImage imageNamed:@"user_noLogin_bg"] options:SDWebImageCacheMemoryOnly];
         self.loginBtn.hidden = YES;
         self.phoneLabel.hidden = NO;
         self.accountAddBtn.hidden = NO;
         self.phoneLabel.text = UserPhone;
         self.phoneLabel.text = [self.phoneLabel.text stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+        [self.accountAddBtn setTitle:[NSString stringWithFormat:@"%@个副账号",USER_ViceAccount] forState:UIControlStateNormal];;
     }
+    //数据
+    [self requestMyselfListData];
 
 }
 //布局
@@ -110,6 +116,7 @@
     }
     [self.avatarButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.centerX.equalTo(self.tableViewHeaderBg);
+        make.height.width.equalTo(@62);
     }];
     [self.phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tableViewHeaderBg.mas_bottom).offset(5);
@@ -124,9 +131,45 @@
         make.centerX.equalTo(self.tableViewHeader);
     }];
 }
+
+#pragma mark---数据
+-(void)requestMyselfListData{
+//    [SVProgressHUD show];
+    NSDictionary *parmas = @{@"type":@"1"};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPIDiscoveryListURL params:parmas succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        if ([response.code isEqualToString:@"200"]) {
+            NSArray *result = response.result;
+            NSLog(@"---%@",result);
+        } else {
+            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        NSLog(@"%@",error);
+    }];
+}
+
+
 #pragma mark---点击
+//点击登录
+-(void)touchUpLoginBtn{
+    [self.view removeFromSuperview];
+    //取出根视图控制器
+    UITabBarController *tabBarVc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    //取出当前选中的导航控制器
+    UINavigationController *nav = [tabBarVc selectedViewController];
+    WXCaptchaLoginVC *vc = [[WXCaptchaLoginVC alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [nav pushViewController: vc animated:YES];
+}
+//点击头像
 -(void)didTouchAvatarButton{
-    
+    if (UserToken == nil || [UserToken isEqualToString:@""]) {
+        [self.view makeToast:@"请登录" duration:1 position:CSToastPositionTop];
+        return;
+    }
 }
 //点击背景
 -(void)didTouchBgView{
@@ -138,7 +181,10 @@
     }];
 }
 -(void)didTouchSchoolCenterBtn{
-    
+    //取出根视图控制器
+    UITabBarController *tabBarVc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    //取出当前选中的导航控制器
+    UINavigationController *nav = [tabBarVc selectedViewController];
 }
 -(void)didTouchSettingBtn{
     UserSettingViewController *vc = [[UserSettingViewController alloc]init];
@@ -199,6 +245,10 @@
     return 0.01;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (UserToken == nil || [UserToken isEqualToString:@""]) {
+        [self.view makeToast:@"请登录" duration:1 position:CSToastPositionBottom];
+        return;
+    }
     NSString *name = self.titlesArr[indexPath.row][@"name"];
     //取出根视图控制器
     UITabBarController *tabBarVc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
@@ -296,6 +346,7 @@
         [button setImage:[UIImage imageNamed:@"tab_user"] forState:UIControlStateNormal];
         [button setImage:[UIImage imageNamed:@"tab_user"] forState:UIControlStateHighlighted];
         [button addTarget:self action:@selector(didTouchAvatarButton) forControlEvents:UIControlEventTouchUpInside];
+        button.radius = 31;
         _avatarButton = button;
     }
     return _avatarButton;
@@ -325,6 +376,7 @@
         _loginBtn.titleLabel.font = kFont(16);
         [_loginBtn setTitle:@"登录/注册" forState:UIControlStateNormal];
         [_loginBtn setTitleColor:defaultTextColor forState:UIControlStateNormal];
+        [_loginBtn addTarget:self action:@selector(touchUpLoginBtn) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginBtn;
 }

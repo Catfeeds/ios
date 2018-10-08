@@ -28,6 +28,8 @@
 #import "UIView+Extend.h"
 #import <SVProgressHUD.h>
 #import "WXAFNetworkCore.h"
+#import <UIImageView+WebCache.h>
+#import <UIButton+WebCache.h>
 #import <MJExtension.h>
 #import <Toast.h>
 #import "Const.h"

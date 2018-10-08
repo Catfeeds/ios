@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		180699B82168F46C00A6E971 /* StudentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 180699B72168F46C00A6E971 /* StudentInfo.m */; };
 		1813A1C5215F0C2B00BE2FA0 /* RealNameInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813A1C4215F0C2B00BE2FA0 /* RealNameInputView.m */; };
 		1813A1CA215F223F00BE2FA0 /* WXAFNetworkCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813A1C8215F223F00BE2FA0 /* WXAFNetworkCore.m */; };
 		1813A1CE215F283C00BE2FA0 /* ResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813A1CD215F283C00BE2FA0 /* ResponseModel.m */; };
@@ -67,6 +68,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		180699B62168F46C00A6E971 /* StudentInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StudentInfo.h; sourceTree = "<group>"; };
+		180699B72168F46C00A6E971 /* StudentInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StudentInfo.m; sourceTree = "<group>"; };
 		1813A1C3215F0C2B00BE2FA0 /* RealNameInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RealNameInputView.h; sourceTree = "<group>"; };
 		1813A1C4215F0C2B00BE2FA0 /* RealNameInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RealNameInputView.m; sourceTree = "<group>"; };
 		1813A1C8215F223F00BE2FA0 /* WXAFNetworkCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXAFNetworkCore.m; sourceTree = "<group>"; };
@@ -185,6 +188,15 @@
 				84437C0F8C547E7C96F18D5D /* Pods-NewCaxjh.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		180699B92168F47100A6E971 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				180699B62168F46C00A6E971 /* StudentInfo.h */,
+				180699B72168F46C00A6E971 /* StudentInfo.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		1813A1C6215F0C3500BE2FA0 /* View */ = {
@@ -489,6 +501,7 @@
 		18C131BC215481E60025816E /* Index */ = {
 			isa = PBXGroup;
 			children = (
+				180699B92168F47100A6E971 /* Model */,
 				183EAAD5215645C800333B42 /* View */,
 				18C131E02154B3A10025816E /* ViewController */,
 				18C131BD2154823D0025816E /* SeeChildIndexViewController.h */,
@@ -788,11 +801,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-NewCaxjh/Pods-NewCaxjh-resources.sh",
+				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 			);
@@ -838,6 +853,7 @@
 				1813A1D2215F617100BE2FA0 /* WXTool.m in Sources */,
 				1837DD6E21578ECC00786744 /* PlayBackTableViewCell.m in Sources */,
 				18F2C269215C79AD00C89ECB /* WXDatePickerView.m in Sources */,
+				180699B82168F46C00A6E971 /* StudentInfo.m in Sources */,
 				1831D25F2153985500D1BB65 /* main.m in Sources */,
 				18C131FB215505D40025816E /* UIView+Extend.m in Sources */,
 				1831D2512153985400D1BB65 /* AppDelegate.m in Sources */,

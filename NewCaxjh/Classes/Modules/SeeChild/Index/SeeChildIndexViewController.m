@@ -37,6 +37,8 @@
         [self addChildViewController:nologinVC];
         [self.view addSubview:nologinVC.view];
         self.nologinView = nologinVC.view;
+    }else{
+        
     }
     //登录监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:LoginSuccessNotificationName object:nil];
@@ -87,6 +89,7 @@
 }
 
 #pragma mark---点击事件
+//退出登录
 -(void)dropOutSuccess{
     if (self.nologinView) {
         self.nologinView.hidden = NO;
