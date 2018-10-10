@@ -66,7 +66,7 @@
         make.top.equalTo(self.loginButton.mas_bottom).with.offset(10);
         make.height.equalTo(@44);
     }];
-    if (kIPhoneX) {
+    if (IS_IPhoneX_All) {
         [self.protocolBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view).with.offset(-34);
             make.centerX.equalTo(self.view);

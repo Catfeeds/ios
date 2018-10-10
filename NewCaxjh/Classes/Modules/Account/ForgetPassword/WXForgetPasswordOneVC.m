@@ -191,6 +191,7 @@
     if (!_loginInputView2) {
         _loginInputView2 = [[WXLoginInputView alloc] init];
         _loginInputView2.textFieldAccount.placeholder = @"请输入验证码";
+        _loginInputView2.textFieldAccount.keyboardType = UIKeyboardTypeNumberPad;
         _loginInputView2.textFieldAccount.delegate = self;
         _loginInputView2.imageViewCode.image = [UIImage imageNamed:@"login_password"];
         [_loginInputView2.arrowButton setTitle:@" 获取验证码 " forState:UIControlStateNormal];

@@ -13,6 +13,7 @@
 		1813A1CE215F283C00BE2FA0 /* ResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813A1CD215F283C00BE2FA0 /* ResponseModel.m */; };
 		1813A1D2215F617100BE2FA0 /* WXTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813A1D1215F617100BE2FA0 /* WXTool.m */; };
 		18258BA12160B4B100AFB524 /* GuidePagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18258BA02160B4B100AFB524 /* GuidePagesViewController.m */; };
+		18310A9E216DD441009B2A4E /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18310A9D216DD441009B2A4E /* WebViewController.m */; };
 		1831D2512153985400D1BB65 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D2502153985400D1BB65 /* AppDelegate.m */; };
 		1831D2542153985400D1BB65 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1831D2532153985400D1BB65 /* ViewController.m */; };
 		1831D2572153985400D1BB65 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1831D2552153985400D1BB65 /* Main.storyboard */; };
@@ -45,6 +46,9 @@
 		18C131F72154FB9A0025816E /* WXForgetPasswordOneVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131F32154FB9A0025816E /* WXForgetPasswordOneVC.m */; };
 		18C131F82154FB9A0025816E /* WXForgetPasswordTwoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131F62154FB9A0025816E /* WXForgetPasswordTwoVC.m */; };
 		18C131FB215505D40025816E /* UIView+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131FA215505D40025816E /* UIView+Extend.m */; };
+		18D8D6C4216C8D2400FB2090 /* DiscoveryIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D8D6C3216C8D2400FB2090 /* DiscoveryIcon.m */; };
+		18D8D6C8216C8DE000FB2090 /* IconModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D8D6C7216C8DE000FB2090 /* IconModel.m */; };
+		18D8D6CB216CA06900FB2090 /* UserIndexCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D8D6CA216CA06900FB2090 /* UserIndexCell.m */; };
 		18F2C264215C6BE600C89ECB /* TimeSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F2C263215C6BE600C89ECB /* TimeSelectViewController.m */; };
 		18F2C269215C79AD00C89ECB /* WXDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F2C268215C79AD00C89ECB /* WXDatePickerView.m */; };
 		DA9015CEE291479659FBE223 /* libPods-NewCaxjh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEBA5B1654DF826F0F03116 /* libPods-NewCaxjh.a */; };
@@ -81,6 +85,8 @@
 		1813A1D1215F617100BE2FA0 /* WXTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WXTool.m; sourceTree = "<group>"; };
 		18258B9F2160B4B100AFB524 /* GuidePagesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuidePagesViewController.h; sourceTree = "<group>"; };
 		18258BA02160B4B100AFB524 /* GuidePagesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GuidePagesViewController.m; sourceTree = "<group>"; };
+		18310A9C216DD441009B2A4E /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		18310A9D216DD441009B2A4E /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		1831D24C2153985400D1BB65 /* NewCaxjh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewCaxjh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1831D24F2153985400D1BB65 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1831D2502153985400D1BB65 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -146,6 +152,12 @@
 		18C131F62154FB9A0025816E /* WXForgetPasswordTwoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXForgetPasswordTwoVC.m; sourceTree = "<group>"; };
 		18C131F9215505D40025816E /* UIView+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Extend.h"; sourceTree = "<group>"; };
 		18C131FA215505D40025816E /* UIView+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extend.m"; sourceTree = "<group>"; };
+		18D8D6C2216C8D2400FB2090 /* DiscoveryIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiscoveryIcon.h; sourceTree = "<group>"; };
+		18D8D6C3216C8D2400FB2090 /* DiscoveryIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DiscoveryIcon.m; sourceTree = "<group>"; };
+		18D8D6C6216C8DE000FB2090 /* IconModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IconModel.h; sourceTree = "<group>"; };
+		18D8D6C7216C8DE000FB2090 /* IconModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IconModel.m; sourceTree = "<group>"; };
+		18D8D6C9216CA06900FB2090 /* UserIndexCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserIndexCell.h; sourceTree = "<group>"; };
+		18D8D6CA216CA06900FB2090 /* UserIndexCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserIndexCell.m; sourceTree = "<group>"; };
 		18F2C262215C6BE600C89ECB /* TimeSelectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSelectViewController.h; sourceTree = "<group>"; };
 		18F2C263215C6BE600C89ECB /* TimeSelectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeSelectViewController.m; sourceTree = "<group>"; };
 		18F2C267215C79AD00C89ECB /* WXDatePickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WXDatePickerView.h; sourceTree = "<group>"; };
@@ -244,6 +256,15 @@
 			path = GuidePages;
 			sourceTree = "<group>";
 		};
+		18310A9B216DD3BA009B2A4E /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				18310A9C216DD441009B2A4E /* WebViewController.h */,
+				18310A9D216DD441009B2A4E /* WebViewController.m */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		1831D2432153985400D1BB65 = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +354,7 @@
 		1831D28421539EFC00D1BB65 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				18310A9B216DD3BA009B2A4E /* WebView */,
 				18258B9E2160B48F00AFB524 /* GuidePages */,
 				18C131BB215480720025816E /* Account */,
 				18C131BA21547FE70025816E /* Discovery */,
@@ -531,6 +553,7 @@
 		18C131CB215485CB0025816E /* Index */ = {
 			isa = PBXGroup;
 			children = (
+				18D8D6CC216CA06D00FB2090 /* View */,
 				18C131D321548A070025816E /* UserIndexViewController.h */,
 				18C131D421548A070025816E /* UserIndexViewController.m */,
 			);
@@ -540,6 +563,7 @@
 		18C131CC215485D10025816E /* Index */ = {
 			isa = PBXGroup;
 			children = (
+				18D8D6C1216C8B8400FB2090 /* Model */,
 				18C131D921548B3E0025816E /* DiscoveryIndexViewController.h */,
 				18C131DA21548B3E0025816E /* DiscoveryIndexViewController.m */,
 			);
@@ -602,6 +626,26 @@
 				18C131F12154FAAF0025816E /* WXPasswordLoginVC.m */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		18D8D6C1216C8B8400FB2090 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				18D8D6C2216C8D2400FB2090 /* DiscoveryIcon.h */,
+				18D8D6C3216C8D2400FB2090 /* DiscoveryIcon.m */,
+				18D8D6C6216C8DE000FB2090 /* IconModel.h */,
+				18D8D6C7216C8DE000FB2090 /* IconModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		18D8D6CC216CA06D00FB2090 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				18D8D6C9216CA06900FB2090 /* UserIndexCell.h */,
+				18D8D6CA216CA06900FB2090 /* UserIndexCell.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		18F2C260215C6B9300C89ECB /* TimeSelect */ = {
@@ -830,15 +874,19 @@
 				18258BA12160B4B100AFB524 /* GuidePagesViewController.m in Sources */,
 				18C131E32154B3E70025816E /* SeeChildNoLoginInVC.m in Sources */,
 				18C131EF2154FA8F0025816E /* WXCaptchaLoginVC.m in Sources */,
+				18D8D6C8216C8DE000FB2090 /* IconModel.m in Sources */,
 				18C131DF215492420025816E /* UIColor+EAHexColor.m in Sources */,
+				18D8D6CB216CA06900FB2090 /* UserIndexCell.m in Sources */,
 				1837DD6A215784E500786744 /* PlayBackViewController.m in Sources */,
 				183EAAE1215692B300333B42 /* BaseTableViewCell.m in Sources */,
 				18C131D521548A070025816E /* UserIndexViewController.m in Sources */,
+				18D8D6C4216C8D2400FB2090 /* DiscoveryIcon.m in Sources */,
 				1813A1CE215F283C00BE2FA0 /* ResponseModel.m in Sources */,
 				18C131D2215489C80025816E /* TeachChildIndexViewController.m in Sources */,
 				1837DD722157C2FC00786744 /* UserSettingViewController.m in Sources */,
 				18C131C5215482A70025816E /* BaseTabBar.m in Sources */,
 				183EAAD82156462800333B42 /* SchoolVideoTableViewCell.m in Sources */,
+				18310A9E216DD441009B2A4E /* WebViewController.m in Sources */,
 				18C131DB21548B3E0025816E /* DiscoveryIndexViewController.m in Sources */,
 				1837DD762157C33900786744 /* RealNameViewController.m in Sources */,
 				18C131EA2154F9630025816E /* WXLoginInputView.m in Sources */,
@@ -1031,6 +1079,7 @@
 				DEVELOPMENT_TEAM = 4DQ4HJ9GVX;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/NewCaxjh/public.pch";
 				INFOPLIST_FILE = NewCaxjh/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1050,6 +1099,7 @@
 				DEVELOPMENT_TEAM = 4DQ4HJ9GVX;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/NewCaxjh/public.pch";
 				INFOPLIST_FILE = NewCaxjh/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

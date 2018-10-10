@@ -84,8 +84,14 @@
         [button setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateNormal];
         [button setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateHighlighted];
     }else{
-        [button sd_setImageWithURL:[NSURL URLWithString:USERHeaderImage] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"header_default"] options:SDWebImageRefreshCached];
-        [button sd_setImageWithURL:[NSURL URLWithString:USERHeaderImage] forState:UIControlStateHighlighted placeholderImage:[UIImage imageNamed:@"header_default"] options:SDWebImageRefreshCached];
+        UIImage *image  =[UIImage imageWithData:[NSData dataWithContentsOfURL: [NSURL URLWithString:USERHeaderImage]]];
+        CGSize asize = self.avatarBarItem.size;
+        UIGraphicsBeginImageContext(asize);
+        [image drawInRect:CGRectMake(0, 0, asize.width, asize.height)];
+        UIImage *newimage = UIGraphicsGetImageFromCurrentImageContext();
+        [button setImage:newimage forState:UIControlStateNormal];
+        [button setImage:newimage forState:UIControlStateHighlighted];
+        UIGraphicsEndImageContext();
     }
     button.radius = 16;
     [button addTarget:self action:@selector(avatarButtonClick) forControlEvents:UIControlEventTouchUpInside];

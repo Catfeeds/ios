@@ -227,11 +227,7 @@
 }
 -(WXDatePickerView *)dateView{
     if (!_dateView) {
-        if (kIPhoneX) {
-           _dateView = [[WXDatePickerView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight-88)];
-        }else{
-            _dateView = [[WXDatePickerView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight-64)];
-        }
+        _dateView = [[WXDatePickerView alloc]initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight-Height_NavBar)];
         _dateView.delegate = self;
     }
     return _dateView;

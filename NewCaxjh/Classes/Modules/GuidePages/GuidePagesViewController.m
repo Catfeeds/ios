@@ -27,7 +27,7 @@
     
 }
 -(void)viewDidLayoutSubviews{
-    if (kIPhoneX) {
+    if (IS_IPhoneX_All) {
         [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view).offset(-174);
             make.centerX.equalTo(self.view);
@@ -81,7 +81,7 @@
             [btn setBorder:selectedTexColor width:0.5];
             [btn addTarget:self action:@selector(experienceNowClick) forControlEvents:UIControlEventTouchUpInside];
             [imageView addSubview:btn];
-            if (kIPhoneX) {
+            if (IS_IPhoneX_All) {
                 btn.radius = 23;
                 [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerX.equalTo(imageView);

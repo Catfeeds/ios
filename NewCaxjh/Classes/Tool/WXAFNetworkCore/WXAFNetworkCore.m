@@ -7,6 +7,7 @@
 //
 
 #import "WXAFNetworkCore.h"
+#import "ResponseModel.h"
 
 @interface WXAFNetworkCore ()
 
@@ -20,7 +21,7 @@ static AFHTTPSessionManager *manager=nil;
         if (manager == nil) {
             manager = [AFHTTPSessionManager manager];
             //请求
-            //manager.requestSerializer = [AFJSONRequestSerializer serializer];
+            manager.requestSerializer = [AFJSONRequestSerializer serializer];
             //响应
             manager.responseSerializer = [AFHTTPResponseSerializer serializer];
             
@@ -72,7 +73,12 @@ static AFHTTPSessionManager *manager=nil;
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (responseObject) {
-            succeedBlock(responseObject);
+            ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObject];
+            if ([response.code isEqualToString:@"400"]) {//token失效
+                [[NSNotificationCenter defaultCenter] postNotificationName:DropOutSuccessNotificationName object:nil];
+            }else{
+                succeedBlock(responseObject);
+            }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (error) {

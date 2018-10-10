@@ -32,11 +32,24 @@
 }
 #pragma mark---点击事件
 -(void)didTouchSignOutButton{
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"USER_TOKEN"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    //发送退出通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:DropOutSuccessNotificationName object:nil];
+    [SVProgressHUD show];
+    NSDictionary *params = @{@"uid":UserID,@"client":@"ios"};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPILogoutURL params:params succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        if ([response.code isEqualToString:@"200"]) {
+            [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"USER_TOKEN"];
+            [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"UserID"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            //发送退出通知
+            [[NSNotificationCenter defaultCenter] postNotificationName:DropOutSuccessNotificationName object:nil];
+        } else {
+            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        NSLog(@"%@",error);
+    }];
 }
 
 #pragma mark---UItableViewDelegate
@@ -54,6 +67,12 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.text = self.titlesArr[indexPath.row];
     cell.textLabel.font = kFont(15);
+    cell.detailTextLabel.font = kFont(13);
+    if ([cell.textLabel.text isEqualToString:@"检查更新"]) {
+        cell.detailTextLabel.text = @"1.0V";
+    }else{
+       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

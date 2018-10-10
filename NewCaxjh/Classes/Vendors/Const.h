@@ -39,12 +39,8 @@
 #define kAPIRegistURL [NSString stringWithFormat:@"%@/app/register",BaseURL]
 //重置密码
 #define kAPIForgetPassURL [NSString stringWithFormat:@"%@/login/password_reset.html",BaseURL]
-//修改密码
-//#define kAPIChangePassURL [NSString stringWithFormat:@"%@/webadmin/changePassword?token=%@&dt=0&u=%@",UserToken, currentMemberID]]
-
-//设置页面-是否设置密码
-//#define kAPISureSettingPassURL [NSString stringWithFormat:@"%@/app/verifyHasPassword?token=%@",BaseURL,UserToken]
-
+//退出
+#define kAPILogoutURL [NSString stringWithFormat:@"%@/Logout/index.html?key=%@",BaseURL,UserToken]
 
 /********************* 个人中心 ********************************/
 //钱包
@@ -54,6 +50,11 @@
 /********************* 发现 ********************************/
 //主页面
 #define kAPIDiscoveryListURL [NSString stringWithFormat:@"%@/Common/navicon.html",BaseURL]
+
+
+/********************* 看孩 ********************************/
+//孩子列表
+#define kAPIStudentListURL [NSString stringWithFormat:@"%@/Students/get_student_info.html?key=%@",BaseURL,UserToken];
 
 
 

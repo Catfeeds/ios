@@ -7,10 +7,11 @@
 //
 
 #import "DiscoveryIndexViewController.h"
+#import "DiscoveryIcon.h"
 
 @interface DiscoveryIndexViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong)UITableView *tableView;
-@property (nonatomic ,strong)NSArray *dataList;
+@property (nonatomic ,strong)NSMutableArray *dataList;
 @property (nonatomic ,strong)UILabel *promptNumLabel;
 @end
 
@@ -26,11 +27,7 @@
     self.rightBarItem.frame = CGRectMake(0, 0, self.rightBarItem.imageView.image.size.width+20, self.rightBarItem.size.height);
     //UI
     [self setupUI];
-    //假数据
-    NSArray *array1= [NSArray arrayWithObjects:@{@"name":@"晒心情",@"imgUrl":@"user_order"},@{@"name":@"直播间",@"imgUrl":@"user_realname"},@{@"name":@"商学院",@"imgUrl":@"user_binding"},@{@"name":@"教育商城",@"imgUrl":@"user_manager"}, nil];
-    NSArray *array2= [NSArray arrayWithObjects:@{@"name":@"幼儿园简介",@"imgUrl":@"user_courseware"},@{@"name":@"签到",@"imgUrl":@"user_wallet"},@{@"name":@"校车",@"imgUrl":@"user_collection"},@{@"name":@"宝宝食谱",@"imgUrl":@"user_education"},@{@"name":@"学校课程",@"imgUrl":@"user_customer"}, nil];
-    self.dataList = [NSArray arrayWithObjects:@{@"title":@"",@"list":array1},@{@"title":@"家校通",@"list":array2},@{@"title":@"",@"list":@[@{@"name":@"消息中心",@"imgUrl":@"user_customer"},]}, nil];
-    
+    //数据
     [self requestDiscoveryListData];
 }
 
@@ -53,7 +50,11 @@
         ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
         if ([response.code isEqualToString:@"200"]) {
             NSArray *result = response.result;
-            NSLog(@"---%@",result);
+            for (NSDictionary *dic in result) {
+                DiscoveryIcon *model = [DiscoveryIcon mj_objectWithKeyValues:dic];
+                [self.dataList addObject:model];
+            }
+             [self.tableView reloadData];
         } else {
             [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
         }
@@ -68,8 +69,8 @@
     return self.dataList.count;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSDictionary *dic = self.dataList[section];
-    NSArray *array = dic[@"list"];
+    DiscoveryIcon *model = self.dataList[section];
+    NSArray *array = model.subTab;
     return array.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -78,20 +79,14 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UserIndexCellName"];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    NSDictionary *dic = self.dataList[indexPath.section];
-    NSArray *array = dic[@"list"];
+    DiscoveryIcon *model = self.dataList[indexPath.section];
+    NSArray *array = model.subTab;
+    IconModel *iconModel = array[indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = array[indexPath.row][@"name"];
+    cell.textLabel.text = iconModel.icon_name;
     cell.textLabel.font = kFont(15);
-    UIImage *image = [UIImage imageNamed:array[indexPath.row][@"imgUrl"]];
-    cell.imageView.image = image;
-    CGSize itemSize = CGSizeMake(image.size.width+10, image.size.height);
-    UIGraphicsBeginImageContext(itemSize);
-    CGRect imageRect = CGRectMake(10, 0, image.size.width, image.size.height);
-    [image drawInRect:imageRect];
-    cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:iconModel.icon_3] placeholderImage:[UIImage imageNamed:@"discovery_shop"]];
+    cell.layoutMargins = UIEdgeInsetsMake(0, 20, 0, 0);
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -100,8 +95,8 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *view = [UIView new];
     view.backgroundColor = KbackgoundColor;
-    NSDictionary *dic = self.dataList[section];
-    NSString *title = dic[@"title"];
+    DiscoveryIcon *model = self.dataList[section];
+    NSString *title = model.tab;
     if (title.length > 0) {
         //头视图
         UIView *headView = [UIView new];
@@ -119,8 +114,8 @@
         lable.text = title;
         [view addSubview:lable];
         [lable mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(headView).offset(30);
-            make.bottom.equalTo(headView);
+            make.left.equalTo(headView).offset(20);
+            make.bottom.equalTo(headView).offset(-5);
         }];
         //线
         UIView *lineView = [UIView new];
@@ -136,8 +131,8 @@
     return view;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    NSDictionary *dic = self.dataList[section];
-    NSString *title = dic[@"title"];
+    DiscoveryIcon *model = self.dataList[section];
+    NSString *title = model.tab;
     if (title.length > 0) {
         return 50;
     }else{
@@ -163,6 +158,13 @@
 }
 
 #pragma 懒加载
+-(NSMutableArray *)dataList{
+    if (!_dataList) {
+        _dataList = [[NSMutableArray alloc]init];
+    }
+    return _dataList;
+}
+//ui
 - (UITableView *)tableView{
     if (!_tableView) {
         _tableView=[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];

@@ -10,6 +10,7 @@
 #import "SeeChildNoLoginInVC.h"
 #import "SchoolVideoTableViewCell.h"
 #import "PlayBackViewController.h"
+#import "StudentInfo.h"
 
 @interface SeeChildIndexViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong)UIView *topView;
@@ -18,6 +19,7 @@
 @property (nonatomic ,strong)UIButton *schoolSelectBtn;
 @property (nonatomic ,strong)UITableView *tableView;
 @property (nonatomic ,weak)UIView *nologinView;
+@property (nonatomic ,strong)NSMutableArray *studentList;
 @end
 
 @implementation SeeChildIndexViewController
@@ -31,6 +33,7 @@
     [self setUpRightBarButtonItemWithTitle:@"回放"];
     self.view.backgroundColor = KbackgoundColor;
     [self setupUI];
+    
     //显示未登录页面
     if (UserToken == nil || [UserToken isEqualToString:@""]) {
         SeeChildNoLoginInVC *nologinVC = [[SeeChildNoLoginInVC alloc]init];
@@ -38,14 +41,16 @@
         [self.view addSubview:nologinVC.view];
         self.nologinView = nologinVC.view;
     }else{
-        
+        //请求看孩数据
+        [self requestStudentListData];
     }
+    
     //登录监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:LoginSuccessNotificationName object:nil];
     //退出监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dropOutSuccess) name:DropOutSuccessNotificationName object:nil];
 }
-
+//布局
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     
@@ -105,6 +110,8 @@
     if (self.nologinView) {
         self.nologinView.hidden = YES;
     }
+    //请求看孩数据
+    [self requestStudentListData];
 }
 //回放
 -(void)didtouchRightBarItem:(UIButton *)sender{
@@ -118,8 +125,8 @@
 //学生学校切换
 -(void)didTouchChangeSchool{
     UIAlertController * sheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    NSArray *titles = @[@"北京市附属医院第三儿童幼儿园",@"小神童第二儿童幼儿园"];
-    for (NSString *title in titles) {
+    for (StudentInfo *model in self.studentList) {
+        NSString * title = [NSString stringWithFormat:@"%@%@",model.name,model.classname];
         UIAlertAction * action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         }];
@@ -132,15 +139,32 @@
     [self presentViewController:sheet animated:YES completion:nil];
 }
 
-#pragma mark--- setui
--(void)setupUI{
-    [self.view addSubview:self.topView];
-    [self.topView addSubview:self.videoView];
-    [self.topView addSubview:self.schoolLabel];
-    [self.topView addSubview:self.schoolSelectBtn];
-    [self.view addSubview:self.tableView];
+#pragma mark---数据
+-(void)requestStudentListData{
+    NSString *url = [NSString stringWithFormat:@"%@/Students/get_student_info.html?key=%@",BaseURL,UserToken];
+    [WXAFNetworkCore postHttpRequestWithURL:url params:nil succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        if ([response.code isEqualToString:@"200"]) {
+            NSArray *result = response.result;
+            for (NSDictionary *dic in result) {
+                StudentInfo *model = [StudentInfo mj_objectWithKeyValues:dic];
+                [self.studentList addObject:model];
+            }
+            if (self.studentList.count < 1) {
+                WebViewController *webVC = [[WebViewController alloc]init];
+                webVC.hidesBottomBarWhenPushed = YES;
+                webVC.urlString = @"http://vip.xiangjianhai.com:8001/app/user/boundstudent.html";
+                [self.navigationController pushViewController:webVC animated:YES];
+            }
+        } else {
+            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        NSLog(@"%@",error);
+    }];
 }
-
 
 
 #pragma mark---UItableViewDelegate
@@ -209,10 +233,25 @@
 }
 
 
-
+#pragma mark--- setUI
+-(void)setupUI{
+    [self.view addSubview:self.topView];
+    [self.topView addSubview:self.videoView];
+    [self.topView addSubview:self.schoolLabel];
+    [self.topView addSubview:self.schoolSelectBtn];
+    [self.view addSubview:self.tableView];
+}
 
 
 #pragma 懒加载
+-(NSMutableArray *)studentList{
+    if (!_studentList) {
+        _studentList = [[NSMutableArray alloc]init];
+    }
+    return _studentList;
+}
+
+//控件
 -(UIView *)topView{
     if (!_topView) {
         _topView = [UIView new];

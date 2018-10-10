@@ -11,6 +11,7 @@
 #import "UserWalletViewController.h"
 #import "RealNameViewController.h"
 #import "WXCaptchaLoginVC.h"
+#import "IconModel.h"
 
 @interface UserIndexViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong)UITableView *tableView;
@@ -20,13 +21,12 @@
 @property (nonatomic ,strong)UILabel *phoneLabel;
 @property (nonatomic ,strong)UIButton *accountAddBtn;
 @property (nonatomic ,strong)UIButton *loginBtn;
+@property (nonatomic ,strong)NSMutableArray *dataList;
 
 //底部
 @property (nonatomic ,strong)UIView *bottomView;
 @property (nonatomic ,strong)UIButton *settingBtn;
 @property (nonatomic ,strong)UIButton *schoolCenterBtn;
-
-@property (nonatomic ,strong)NSArray *titlesArr;
 
 @end
 
@@ -37,7 +37,7 @@
     // Do any additional setup after loading the view.
     [self setupUI];
     self.view.backgroundColor = [UIColor clearColor];
-    self.titlesArr = [NSArray arrayWithObjects:@{@"name":@"我的订单",@"imgUrl":@"user_order"},@{@"name":@"实名认证",@"imgUrl":@"user_realname"},@{@"name":@"绑定学生",@"imgUrl":@"user_binding"},@{@"name":@"找孩管理",@"imgUrl":@"user_manager"},@{@"name":@"教师认证",@"imgUrl":@"user_teacher"},@{@"name":@"上传课件",@"imgUrl":@"user_courseware"},@{@"name":@"我的钱包",@"imgUrl":@"user_wallet"},@{@"name":@"我的收藏",@"imgUrl":@"user_collection"},@{@"name":@"教育商城",@"imgUrl":@"user_education"},@{@"name":@"客服",@"imgUrl":@"user_customer"}, nil];
+    //self.titlesArr = [NSArray arrayWithObjects:@{@"name":@"我的订单",@"imgUrl":@"user_order"},@{@"name":@"实名认证",@"imgUrl":@"user_realname"},@{@"name":@"绑定学生",@"imgUrl":@"user_binding"},@{@"name":@"找孩管理",@"imgUrl":@"user_manager"},@{@"name":@"教师认证",@"imgUrl":@"user_teacher"},@{@"name":@"上传课件",@"imgUrl":@"user_courseware"},@{@"name":@"我的钱包",@"imgUrl":@"user_wallet"},@{@"name":@"我的收藏",@"imgUrl":@"user_collection"},@{@"name":@"教育商城",@"imgUrl":@"user_education"},@{@"name":@"客服",@"imgUrl":@"user_customer"}, nil];
     self.navigationController.navigationBar.hidden = YES;
     
     //添加点击事件
@@ -73,7 +73,7 @@
         make.top.bottom.left.right.equalTo(self.view);
     }];
     /********底部************/
-    if (kIPhoneX) {
+    if (IS_IPhoneX_All) {
         [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.left.equalTo(self.view);
             make.height.equalTo(@84);
@@ -103,7 +103,7 @@
         make.bottom.equalTo(self.bottomView.mas_top);
         make.width.equalTo(self.bottomView.mas_width);
     }];
-    if (kIPhoneX) {
+    if (IS_IPhoneX_All) {
         [self.tableViewHeaderBg mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(self.tableViewHeader);
             make.height.equalTo(@150);
@@ -134,14 +134,17 @@
 
 #pragma mark---数据
 -(void)requestMyselfListData{
-//    [SVProgressHUD show];
     NSDictionary *parmas = @{@"type":@"1"};
     [WXAFNetworkCore postHttpRequestWithURL:kAPIDiscoveryListURL params:parmas succeedBlock:^(id responseObj) {
         [SVProgressHUD dismiss];
         ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
         if ([response.code isEqualToString:@"200"]) {
             NSArray *result = response.result;
-            NSLog(@"---%@",result);
+            for (NSDictionary *dic in result) {
+                IconModel *model = [IconModel mj_objectWithKeyValues:dic];
+                [self.dataList addObject:model];
+            }
+            [self.tableView reloadData];
         } else {
             [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
         }
@@ -166,10 +169,19 @@
 }
 //点击头像
 -(void)didTouchAvatarButton{
+    [self.view removeFromSuperview];
     if (UserToken == nil || [UserToken isEqualToString:@""]) {
         [self.view makeToast:@"请登录" duration:1 position:CSToastPositionTop];
         return;
     }
+    WebViewController *webVC = [[WebViewController alloc]init];
+    webVC.hidesBottomBarWhenPushed = YES;
+    webVC.urlString = @"http://vip.xiangjianhai.com:8001/app/user/personalinfo.html";
+    //取出根视图控制器
+    UITabBarController *tabBarVc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    //取出当前选中的导航控制器
+    UINavigationController *nav = [tabBarVc selectedViewController];
+    [nav pushViewController:webVC animated:YES];
 }
 //点击背景
 -(void)didTouchBgView{
@@ -204,23 +216,19 @@
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.titlesArr.count;
+    return self.dataList.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserIndexCellName"];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UserIndexCellName"];
     }
+    cell.layoutMargins = UIEdgeInsetsMake(0, 50, 0, 0);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = self.titlesArr[indexPath.row][@"name"];
+    IconModel *model = self.dataList[indexPath.row];
+    cell.textLabel.text = model.icon_name;
     cell.textLabel.font = kFont(15);
-    UIImage *image = [UIImage imageNamed:self.titlesArr[indexPath.row][@"imgUrl"]];
-    cell.imageView.image = image;
-    CGSize itemSize = CGSizeMake(image.size.width+30, image.size.height);
-    UIGraphicsBeginImageContext(itemSize);
-    CGRect imageRect = CGRectMake(30, 0, image.size.width, image.size.height);
-    [image drawInRect:imageRect];
-    cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.icon_3] placeholderImage:[UIImage imageNamed:@"user_manager"]];
     UIGraphicsEndImageContext();
     
     return cell;
@@ -249,11 +257,21 @@
         [self.view makeToast:@"请登录" duration:1 position:CSToastPositionBottom];
         return;
     }
-    NSString *name = self.titlesArr[indexPath.row][@"name"];
+    
     //取出根视图控制器
     UITabBarController *tabBarVc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     //取出当前选中的导航控制器
     UINavigationController *nav = [tabBarVc selectedViewController];
+    IconModel *model = self.dataList[indexPath.row];
+    if ([model.link_type isEqual:@1]) {
+        WebViewController *webVC = [[WebViewController alloc]init];
+        webVC.hidesBottomBarWhenPushed = YES;
+        webVC.urlString = @"http://vip.xiangjianhai.com:8001/app/user/personalinfo.html";
+        [nav pushViewController:webVC animated:YES];
+        //return;
+        [self.view removeFromSuperview];
+    }
+    NSString *name = model.icon_name;
     if ([name isEqualToString:@"我的钱包"]) {
         UserWalletViewController *vc = [[UserWalletViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
@@ -289,6 +307,13 @@
 }
 
 #pragma 懒加载
+-(NSMutableArray *)dataList{
+    if (!_dataList) {
+        _dataList = [[NSMutableArray alloc]init];
+    }
+    return _dataList;
+}
+
 -(UIView *)bgView{
     if (!_bgView) {
         _bgView = [UIView new];
@@ -324,7 +349,7 @@
 }
 -(UIView *)tableViewHeader{
     if (!_tableViewHeader) {
-        if (kIPhoneX) {
+        if (IS_IPhoneX_All) {
             _tableViewHeader = [[UIView alloc]initWithFrame:CGRectMake(0.0, 0.0, self.tableView.width, 200)];
         }else{
             _tableViewHeader = [[UIView alloc]initWithFrame:CGRectMake(0.0, 0.0, self.tableView.width, 170)];
