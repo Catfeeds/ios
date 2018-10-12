@@ -57,9 +57,11 @@
              [self.tableView reloadData];
         } else {
             [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+            [self.view showEmptyPlaceImage:@"no_data_prompt" WithContent:@"暂无数据"];
         }
     } failBlock:^(id error) {
         [SVProgressHUD dismiss];
+        [self.view showEmptyPlaceImage:@"no_data_prompt" WithContent:@"暂无数据"];
         NSLog(@"%@",error);
     }];
 }

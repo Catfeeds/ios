@@ -29,6 +29,11 @@
 		1837DD7A2157C3BB00786744 /* UserWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837DD792157C3BB00786744 /* UserWalletViewController.m */; };
 		183EAAD82156462800333B42 /* SchoolVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183EAAD72156462800333B42 /* SchoolVideoTableViewCell.m */; };
 		183EAAE1215692B300333B42 /* BaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183EAAE0215692B300333B42 /* BaseTableViewCell.m */; };
+		18A09CFB216F1BBE0054EE63 /* WXScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A09CFA216F1BBE0054EE63 /* WXScanner.m */; };
+		18A09D00216F1EFB0054EE63 /* ScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A09CFF216F1EFB0054EE63 /* ScannerViewController.m */; };
+		18A09D02216F21C00054EE63 /* scanscanBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A09D01216F21BF0054EE63 /* scanscanBg.png */; };
+		18A09D04216F22120054EE63 /* scanLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A09D03216F22120054EE63 /* scanLine.png */; };
+		18A09D07216F45880054EE63 /* UIView+PlaceHolderImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A09D06216F45880054EE63 /* UIView+PlaceHolderImageView.m */; };
 		18C131BF2154823D0025816E /* SeeChildIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131BE2154823D0025816E /* SeeChildIndexViewController.m */; };
 		18C131C22154827B0025816E /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131C12154827B0025816E /* BaseViewController.m */; };
 		18C131C5215482A70025816E /* BaseTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C131C4215482A70025816E /* BaseTabBar.m */; };
@@ -117,6 +122,14 @@
 		183EAAD72156462800333B42 /* SchoolVideoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SchoolVideoTableViewCell.m; sourceTree = "<group>"; };
 		183EAADF215692B300333B42 /* BaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewCell.h; sourceTree = "<group>"; };
 		183EAAE0215692B300333B42 /* BaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewCell.m; sourceTree = "<group>"; };
+		18A09CF9216F1BBE0054EE63 /* WXScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXScanner.h; sourceTree = "<group>"; };
+		18A09CFA216F1BBE0054EE63 /* WXScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXScanner.m; sourceTree = "<group>"; };
+		18A09CFE216F1EFB0054EE63 /* ScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannerViewController.h; sourceTree = "<group>"; };
+		18A09CFF216F1EFB0054EE63 /* ScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannerViewController.m; sourceTree = "<group>"; };
+		18A09D01216F21BF0054EE63 /* scanscanBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scanscanBg.png; sourceTree = "<group>"; };
+		18A09D03216F22120054EE63 /* scanLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scanLine.png; sourceTree = "<group>"; };
+		18A09D05216F45880054EE63 /* UIView+PlaceHolderImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PlaceHolderImageView.h"; sourceTree = "<group>"; };
+		18A09D06216F45880054EE63 /* UIView+PlaceHolderImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PlaceHolderImageView.m"; sourceTree = "<group>"; };
 		18C131BD2154823D0025816E /* SeeChildIndexViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SeeChildIndexViewController.h; sourceTree = "<group>"; };
 		18C131BE2154823D0025816E /* SeeChildIndexViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SeeChildIndexViewController.m; sourceTree = "<group>"; };
 		18C131C02154827B0025816E /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -259,6 +272,7 @@
 		18310A9B216DD3BA009B2A4E /* WebView */ = {
 			isa = PBXGroup;
 			children = (
+				18A09CFC216F1E2E0054EE63 /* ViewController */,
 				18310A9C216DD441009B2A4E /* WebViewController.h */,
 				18310A9D216DD441009B2A4E /* WebViewController.m */,
 			);
@@ -370,6 +384,8 @@
 		1831D28521539F0B00D1BB65 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				18A09D05216F45880054EE63 /* UIView+PlaceHolderImageView.h */,
+				18A09D06216F45880054EE63 /* UIView+PlaceHolderImageView.m */,
 				18C131DE215492420025816E /* UIColor+EAHexColor.h */,
 				18C131DD215492420025816E /* UIColor+EAHexColor.m */,
 				18C131F9215505D40025816E /* UIView+Extend.h */,
@@ -455,6 +471,34 @@
 				183EAAD72156462800333B42 /* SchoolVideoTableViewCell.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		18A09CF8216F1BBE0054EE63 /* WXScannerView */ = {
+			isa = PBXGroup;
+			children = (
+				18A09CF9216F1BBE0054EE63 /* WXScanner.h */,
+				18A09CFA216F1BBE0054EE63 /* WXScanner.m */,
+			);
+			path = WXScannerView;
+			sourceTree = "<group>";
+		};
+		18A09CFC216F1E2E0054EE63 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				18A09CFD216F1EBE0054EE63 /* 扫描 */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		18A09CFD216F1EBE0054EE63 /* 扫描 */ = {
+			isa = PBXGroup;
+			children = (
+				18A09D03216F22120054EE63 /* scanLine.png */,
+				18A09D01216F21BF0054EE63 /* scanscanBg.png */,
+				18A09CFE216F1EFB0054EE63 /* ScannerViewController.h */,
+				18A09CFF216F1EFB0054EE63 /* ScannerViewController.m */,
+			);
+			name = "扫描";
 			sourceTree = "<group>";
 		};
 		18C131B521547F6D0025816E /* SeeChild */ = {
@@ -668,6 +712,7 @@
 		18F2C265215C796300C89ECB /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				18A09CF8216F1BBE0054EE63 /* WXScannerView */,
 				1813A1D3215F617A00BE2FA0 /* WXTool */,
 				1813A1C7215F223F00BE2FA0 /* WXAFNetworkCore */,
 				18F2C266215C797700C89ECB /* WXDatePickerView */,
@@ -797,8 +842,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18A09D02216F21C00054EE63 /* scanscanBg.png in Resources */,
 				1831D25C2153985500D1BB65 /* LaunchScreen.storyboard in Resources */,
 				1831D2592153985500D1BB65 /* Assets.xcassets in Resources */,
+				18A09D04216F22120054EE63 /* scanLine.png in Resources */,
 				1831D2572153985400D1BB65 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -874,6 +921,7 @@
 				18258BA12160B4B100AFB524 /* GuidePagesViewController.m in Sources */,
 				18C131E32154B3E70025816E /* SeeChildNoLoginInVC.m in Sources */,
 				18C131EF2154FA8F0025816E /* WXCaptchaLoginVC.m in Sources */,
+				18A09D07216F45880054EE63 /* UIView+PlaceHolderImageView.m in Sources */,
 				18D8D6C8216C8DE000FB2090 /* IconModel.m in Sources */,
 				18C131DF215492420025816E /* UIColor+EAHexColor.m in Sources */,
 				18D8D6CB216CA06900FB2090 /* UserIndexCell.m in Sources */,
@@ -882,6 +930,7 @@
 				18C131D521548A070025816E /* UserIndexViewController.m in Sources */,
 				18D8D6C4216C8D2400FB2090 /* DiscoveryIcon.m in Sources */,
 				1813A1CE215F283C00BE2FA0 /* ResponseModel.m in Sources */,
+				18A09D00216F1EFB0054EE63 /* ScannerViewController.m in Sources */,
 				18C131D2215489C80025816E /* TeachChildIndexViewController.m in Sources */,
 				1837DD722157C2FC00786744 /* UserSettingViewController.m in Sources */,
 				18C131C5215482A70025816E /* BaseTabBar.m in Sources */,
@@ -890,6 +939,7 @@
 				18C131DB21548B3E0025816E /* DiscoveryIndexViewController.m in Sources */,
 				1837DD762157C33900786744 /* RealNameViewController.m in Sources */,
 				18C131EA2154F9630025816E /* WXLoginInputView.m in Sources */,
+				18A09CFB216F1BBE0054EE63 /* WXScanner.m in Sources */,
 				18C131BF2154823D0025816E /* SeeChildIndexViewController.m in Sources */,
 				18C131C22154827B0025816E /* BaseViewController.m in Sources */,
 				1831D2542153985400D1BB65 /* ViewController.m in Sources */,
@@ -1075,7 +1125,8 @@
 			baseConfigurationReference = FA7108D381EDDBF050A93168 /* Pods-NewCaxjh.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4DQ4HJ9GVX;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/NewCaxjh/public.pch";
 				INFOPLIST_FILE = NewCaxjh/Info.plist;
@@ -1084,8 +1135,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xiangjianhai.NewCaxjh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xiangjianhai.newCaxjh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "0077463b-5d82-49de-b30a-5aa42a486068";
+				PROVISIONING_PROFILE_SPECIFIER = NewCaxjh_DEV;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1095,7 +1148,8 @@
 			baseConfigurationReference = 84437C0F8C547E7C96F18D5D /* Pods-NewCaxjh.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4DQ4HJ9GVX;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/NewCaxjh/public.pch";
 				INFOPLIST_FILE = NewCaxjh/Info.plist;
@@ -1104,8 +1158,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xiangjianhai.NewCaxjh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xiangjianhai.newCaxjh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "199c2a7b-9f1c-4655-b41e-a67515bdcc09";
+				PROVISIONING_PROFILE_SPECIFIER = Distribution_AdHod_newCaxjh2018_10_08;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

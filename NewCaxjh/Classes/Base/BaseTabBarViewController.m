@@ -56,12 +56,11 @@
 
     //tabBar
     nav.tabBarItem.title = title;
-    [nav.tabBarItem setTitlePositionAdjustment:UIOffsetMake(0, -6)];
-    UIEdgeInsets insets = UIEdgeInsetsMake(-12, 0, 0, 0);
+    [nav.tabBarItem setTitlePositionAdjustment:UIOffsetMake(0, -2)];
     if ([title isEqualToString:@"教孩"]) {
-        insets = UIEdgeInsetsMake(-20, 0, 0, 0);
+        UIEdgeInsets insets = UIEdgeInsetsMake(-2, 0, 2, 0);
+        nav.tabBarItem.imageInsets = insets;
     }
-    nav.tabBarItem.imageInsets = insets;
     nav.tabBarItem.image = [[UIImage imageNamed:imgName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     nav.tabBarItem.selectedImage = [[UIImage imageNamed:selectImgName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     NSDictionary *dict = [NSDictionary dictionaryWithObject:selectedTexColor forKey:NSForegroundColorAttributeName];

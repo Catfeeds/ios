@@ -104,12 +104,11 @@
     NSDictionary *params = @{@"mobile":self.loginInputView1.textFieldAccount.text,@"password":self.loginInputView2.textFieldAccount.text,@"client":@"ios",@"log_type":@"sms_login",@"captcha":@"",@"is_pass":@"1"};
     [WXAFNetworkCore postHttpRequestWithURL:kAPILoginURL params:params succeedBlock:^(id responseObj) {
         [SVProgressHUD dismiss];
-        NSString *string = [[NSString alloc]initWithData:responseObj encoding:NSUTF8StringEncoding];
         ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
         [self.loginInputView1.textFieldAccount resignFirstResponder];
         if ([response.code isEqualToString:@"200"]) {
             [self.view makeToast:@"登录/注册成功" duration:1.0 position:CSToastPositionTop];
-            //用户信息存储
+            //用户信息存储    
             NSDictionary *dic = response.result;
             //id
             [[NSUserDefaults standardUserDefaults] setObject:dic[@"uid"] forKey:@"USER_ID"];
@@ -124,10 +123,10 @@
             [[NSUserDefaults standardUserDefaults] setObject:dic[@"avator"] forKey:@"USER_HeaderImage"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             //用户名
-            [[NSUserDefaults standardUserDefaults] setObject:dic[@"is_owner"] forKey:@"USER_IsOwner"];
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"user_name"] forKey:@"USER_Name"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             //主账号
-            [[NSUserDefaults standardUserDefaults] setObject:dic[@"viceAccount"] forKey:@"USER_ViceAccount"];
+            [[NSUserDefaults standardUserDefaults] setBool:dic[@"is_owner"] forKey:@"USER_IsOwner"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             //副账号
             [[NSUserDefaults standardUserDefaults] setObject:dic[@"viceAccount"] forKey:@"USER_ViceAccount"];

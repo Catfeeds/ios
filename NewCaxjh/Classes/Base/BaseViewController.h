@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "ResponseModel.h"
+#import "UIView+PlaceHolderImageView.h"
 
 @interface BaseViewController : UIViewController
+
 @property (nonatomic ,strong)UIButton *rightBarItem;
 @property (nonatomic ,strong)UIButton *popBarItem;
 @property (nonatomic ,strong)UIButton *avatarBarItem;
+@property (nonatomic ,strong)UIView *userIndexView;
+
+
 //自定义导航栏右侧按钮
 -(void)setUpRightBarButtonItemWithTitle:(NSString *)title;
 -(void)didtouchRightBarItem:(UIButton *)sender;

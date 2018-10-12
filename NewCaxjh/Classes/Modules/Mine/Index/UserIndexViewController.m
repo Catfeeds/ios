@@ -37,7 +37,6 @@
     // Do any additional setup after loading the view.
     [self setupUI];
     self.view.backgroundColor = [UIColor clearColor];
-    //self.titlesArr = [NSArray arrayWithObjects:@{@"name":@"我的订单",@"imgUrl":@"user_order"},@{@"name":@"实名认证",@"imgUrl":@"user_realname"},@{@"name":@"绑定学生",@"imgUrl":@"user_binding"},@{@"name":@"找孩管理",@"imgUrl":@"user_manager"},@{@"name":@"教师认证",@"imgUrl":@"user_teacher"},@{@"name":@"上传课件",@"imgUrl":@"user_courseware"},@{@"name":@"我的钱包",@"imgUrl":@"user_wallet"},@{@"name":@"我的收藏",@"imgUrl":@"user_collection"},@{@"name":@"教育商城",@"imgUrl":@"user_education"},@{@"name":@"客服",@"imgUrl":@"user_customer"}, nil];
     self.navigationController.navigationBar.hidden = YES;
     
     //添加点击事件
@@ -57,14 +56,23 @@
         [self.avatarButton sd_setImageWithURL:imgUrl forState:(UIControlState)UIControlStateNormal placeholderImage:[UIImage imageNamed:@"user_noLogin_bg"] options:SDWebImageCacheMemoryOnly];
         self.loginBtn.hidden = YES;
         self.phoneLabel.hidden = NO;
-        self.accountAddBtn.hidden = NO;
         self.phoneLabel.text = UserPhone;
         self.phoneLabel.text = [self.phoneLabel.text stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
-        [self.accountAddBtn setTitle:[NSString stringWithFormat:@"%@个副账号",USER_ViceAccount] forState:UIControlStateNormal];;
+        if (USER_IsOwner == 0) {//副账号
+            self.accountAddBtn.hidden = YES;
+        }else{
+            self.accountAddBtn.hidden = NO;
+            [self.accountAddBtn setTitle:[NSString stringWithFormat:@"%@个副账号",USER_ViceAccount] forState:UIControlStateNormal];
+        }
+        //请求用户信息
+        [self requestUserData];
     }
     //数据
     [self requestMyselfListData];
 
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
 }
 //布局
 -(void)viewDidLayoutSubviews{
@@ -153,6 +161,23 @@
         NSLog(@"%@",error);
     }];
 }
+#pragma mark---数据
+-(void)requestUserData{
+    NSDictionary *params = @{@"key":UserToken,@"member_id":UserID};
+    [WXAFNetworkCore postHttpRequestWithURL:kAPIUserDataURL params:params succeedBlock:^(id responseObj) {
+        [SVProgressHUD dismiss];
+        ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
+        if ([response.code isEqualToString:@"200"]) {
+            NSDictionary *result = response.result;
+            [self.accountAddBtn setTitle:[NSString stringWithFormat:@"%@个副账号",result[@"f_account_count"]] forState:UIControlStateNormal];
+        } else {
+            [self.view makeToast:response.message duration:1.0 position:CSToastPositionTop];
+        }
+    } failBlock:^(id error) {
+        [SVProgressHUD dismiss];
+        NSLog(@"%@",error);
+    }];
+}
 
 
 #pragma mark---点击
@@ -169,19 +194,39 @@
 }
 //点击头像
 -(void)didTouchAvatarButton{
-    [self.view removeFromSuperview];
     if (UserToken == nil || [UserToken isEqualToString:@""]) {
         [self.view makeToast:@"请登录" duration:1 position:CSToastPositionTop];
         return;
     }
     WebViewController *webVC = [[WebViewController alloc]init];
     webVC.hidesBottomBarWhenPushed = YES;
-    webVC.urlString = @"http://vip.xiangjianhai.com:8001/app/user/personalinfo.html";
+    webVC.urlString =[NSString stringWithFormat:@"%@/user/personalinfo.html",BaseWebURL];
     //取出根视图控制器
     UITabBarController *tabBarVc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     //取出当前选中的导航控制器
     UINavigationController *nav = [tabBarVc selectedViewController];
     [nav pushViewController:webVC animated:YES];
+    [self.view removeFromSuperview];
+}
+//点击账户
+-(void)touchUpAddAccountBtn{
+    if (UserToken == nil || [UserToken isEqualToString:@""]) {
+        [self.view makeToast:@"请登录" duration:1 position:CSToastPositionCenter];
+        return;
+    }
+    if(USER_IsOwner == 0){
+        [self.view makeToast:@"您不是主账号，不能管理副账号!" duration:1 position:CSToastPositionCenter];
+        return;
+    }
+    WebViewController *webVC = [[WebViewController alloc]init];
+    webVC.hidesBottomBarWhenPushed = YES;
+    webVC.urlString = [NSString stringWithFormat:@"%@/user/subaccountman.html",BaseWebURL];
+    //取出根视图控制器
+    UITabBarController *tabBarVc = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    //取出当前选中的导航控制器
+    UINavigationController *nav = [tabBarVc selectedViewController];
+    [nav pushViewController:webVC animated:YES];
+    [self.view removeFromSuperview];
 }
 //点击背景
 -(void)didTouchBgView{
@@ -199,6 +244,10 @@
     UINavigationController *nav = [tabBarVc selectedViewController];
 }
 -(void)didTouchSettingBtn{
+    if (UserToken == nil || [UserToken isEqualToString:@""]) {
+        [self.view makeToast:@"请登录" duration:1 position:CSToastPositionTop];
+        return;
+    }
     UserSettingViewController *vc = [[UserSettingViewController alloc]init];
     vc.hidesBottomBarWhenPushed = YES;
     //取出根视图控制器
@@ -263,26 +312,31 @@
     //取出当前选中的导航控制器
     UINavigationController *nav = [tabBarVc selectedViewController];
     IconModel *model = self.dataList[indexPath.row];
-    if ([model.link_type isEqual:@1]) {
-        WebViewController *webVC = [[WebViewController alloc]init];
-        webVC.hidesBottomBarWhenPushed = YES;
-        webVC.urlString = @"http://vip.xiangjianhai.com:8001/app/user/personalinfo.html";
-        [nav pushViewController:webVC animated:YES];
-        //return;
-        [self.view removeFromSuperview];
-    }
+    
+    WebViewController *vc = [[WebViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
     NSString *name = model.icon_name;
+    if ([name isEqualToString:@"我的订单"]) {
+        vc.urlString = @"http://vip.xiangjianhai.com:8001/app/user/orderform1.html";
+        [nav pushViewController:vc animated:YES];
+        [self.view removeFromSuperview];
+        return;
+    }
+    if ([name isEqualToString:@"绑定学生"]) {
+        vc.urlString = @"http://vip.xiangjianhai.com:8001/app/user/boundstudent.html";
+        [nav pushViewController:vc animated:YES];
+        [self.view removeFromSuperview];
+        return;
+    }
     if ([name isEqualToString:@"我的钱包"]) {
         UserWalletViewController *vc = [[UserWalletViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [nav pushViewController:vc animated:YES];
-        //销毁页面
         [self.view removeFromSuperview];
     }else if ([name isEqualToString:@"实名认证"]) {
         RealNameViewController *vc = [[RealNameViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         [nav pushViewController:vc animated:YES];
-        //销毁页面
         [self.view removeFromSuperview];
     }
 }
@@ -391,6 +445,7 @@
         _accountAddBtn.titleLabel.font = kFont(10);
         [_accountAddBtn setTitle:@" *个副账号" forState:UIControlStateNormal];
         [_accountAddBtn setTitleColor:selectedTexColor forState:UIControlStateNormal];
+        [_accountAddBtn addTarget:self action:@selector(touchUpAddAccountBtn) forControlEvents:UIControlEventTouchUpInside];
     }
     return _accountAddBtn;
     

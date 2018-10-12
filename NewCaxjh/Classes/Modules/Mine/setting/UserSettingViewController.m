@@ -38,8 +38,6 @@
         [SVProgressHUD dismiss];
         ResponseModel *response = [ResponseModel mj_objectWithKeyValues:responseObj];
         if ([response.code isEqualToString:@"200"]) {
-            [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"USER_TOKEN"];
-            [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"UserID"];
             [self.navigationController popToRootViewControllerAnimated:YES];
             //发送退出通知
             [[NSNotificationCenter defaultCenter] postNotificationName:DropOutSuccessNotificationName object:nil];
@@ -102,7 +100,24 @@
     return self.view.height - 64- self.titlesArr.count * 50;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    WebViewController *webVC = [[WebViewController alloc]init];
+    webVC.hidesBottomBarWhenPushed = YES;
+    NSString *title = self.titlesArr[indexPath.row];
+    if([title isEqualToString:@"修改密码"]){
+        webVC.urlString = [NSString stringWithFormat:@"%@/user/revisesecurepwd.html",BaseWebURL];
+        [self.navigationController pushViewController:webVC animated:YES];
+        return;
+    }
+    if([title isEqualToString:@"安全密码"]){
+        webVC.urlString = [NSString stringWithFormat:@"%@/user/securepwd.html",BaseWebURL];
+        [self.navigationController pushViewController:webVC animated:YES];
+        return;
+    }
+    if([title isEqualToString:@"反馈意见"]){
+        webVC.urlString = [NSString stringWithFormat:@"%@/user/feedback.html",BaseWebURL];
+        [self.navigationController pushViewController:webVC animated:YES];
+        return;
+    }
 }
 
 #pragma 懒加载

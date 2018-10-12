@@ -9,6 +9,7 @@
 #import "WebViewController.h"
 #import <WebKit/WebKit.h>
 #import <JavaScriptCore/JavaScriptCore.h>
+#import "ScannerViewController.h"
 
 @interface WebViewController ()<WKUIDelegate,WKNavigationDelegate,WKScriptMessageHandler>
 @property (nonatomic ,strong)WKWebView *webView;
@@ -26,6 +27,8 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     [SVProgressHUD show];
+    //清楚缓存
+    [self deleteWebCache];
     [self.view addSubview:self.webView];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
 }
@@ -33,12 +36,9 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
 }
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     self.navigationController.navigationBar.hidden = NO;
-    self.webView.UIDelegate = nil;
-    self.webView.navigationDelegate = nil;
-    self.webView = nil;
 }
 -(void)setUrlString:(NSString *)urlString{
     _urlString = urlString;
@@ -46,25 +46,23 @@
 #pragma mark----WKScriptMessageHandler代理
 //依然是这个协议方法,获取注入方法名对象,获取js返回的状态值.
 -(void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message{
-    if ([message.name isEqualToString:@"backClick"]) {
+    if ([message.name isEqualToString:@"backClick"]) {//返回按钮
         [self.navigationController popViewControllerAnimated:YES];
+        //移除js方法
+        [self.webView.configuration.userContentController removeScriptMessageHandlerForName:@"backClick"];
+        [self.webView.configuration.userContentController removeScriptMessageHandlerForName:@"scanCode"];
+        return;
     }
-    //else{
-//        NSData *data = [message.body dataUsingEncoding:NSUTF8StringEncoding];
-//        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-//        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//        }];
-//        // alert弹出框
-//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:dic[@"content"] message:nil preferredStyle:UIAlertControllerStyleAlert];
-//        [alertController addAction:alertAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
-//    }
+    if ([message.name isEqualToString:@"scanCode"]) {//扫描二维码
+        [self scanQRCode];
+        return;
+    }
+    
 }
 #pragma mark---WKUIDelegate
 // 对应js的Alert方法
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
     [SVProgressHUD dismiss];
-    NSLog(@"%s--%@",__FUNCTION__,message);
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
     [alertController addAction:([UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         completionHandler();
@@ -102,6 +100,7 @@
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error{
     [SVProgressHUD dismiss];
     [self.view makeToast:@"对不起,页面加载失败,请守候重试!"];
+    self.navigationController.navigationBar.hidden = NO;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -136,9 +135,47 @@
         
         //添加注入js方法, oc与js端对应实现
         [config.userContentController addScriptMessageHandler:self name:@"backClick"];
-        [config.userContentController addScriptMessageHandler:self name:@"submitClick"];
+        [config.userContentController addScriptMessageHandler:self name:@"scanCode"];
     }
     return _webView;
+}
+#pragma mark--私有方法
+//扫描二维码
+-(void)scanQRCode{
+    ScannerViewController *vc = [[ScannerViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    __weak typeof(self)weakSelf = self;
+    vc.qrCodeBlock = ^(NSString *content) {
+        //注入js代码传值
+        NSString *js = [NSString stringWithFormat:@"$('#shibiema').val('%@')",content];
+        [weakSelf.webView evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        }];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+//删除
+- (void)deleteWebCache {
+    if (@available(iOS 9.0, *)) {
+        //allWebsiteDataTypes清除所有缓存
+        NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
+        NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
+            
+        }];
+    } else {
+        // Fallback on earlier versions
+        NSString *libraryDir = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,
+                                                                   NSUserDomainMask, YES)[0];
+        NSString *bundleId  =  [[[NSBundle mainBundle] infoDictionary]
+                                objectForKey:@"CFBundleIdentifier"];
+        NSString *webkitFolderInLib = [NSString stringWithFormat:@"%@/WebKit",libraryDir];
+        NSString *webKitFolderInCaches = [NSString
+                                          stringWithFormat:@"%@/Caches/%@/WebKit",libraryDir,bundleId];
+        NSError *error;
+        /* iOS8.0 WebView Cache的存放路径 */
+        [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCaches error:&error];
+        [[NSFileManager defaultManager] removeItemAtPath:webkitFolderInLib error:nil];
+    }
 }
 
 @end

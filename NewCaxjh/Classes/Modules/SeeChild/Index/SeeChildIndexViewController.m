@@ -97,6 +97,8 @@
 //退出登录
 -(void)dropOutSuccess{
     if (self.nologinView) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"USER_TOKEN"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"UserID"];
         self.nologinView.hidden = NO;
         [self.view bringSubviewToFront:self.nologinView];
     }else{//不存在重新添加
@@ -105,6 +107,11 @@
         [self.view addSubview:nologinVC.view];
         self.nologinView = nologinVC.view;
     }
+    //侧拉页面销毁
+    [self.userIndexView removeFromSuperview];
+    //头像变灰
+    [self.avatarBarItem setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateNormal];
+    [self.avatarBarItem setImage:[UIImage imageNamed:@"header_default"] forState:UIControlStateHighlighted];
 }
 -(void)loginSuccess{
     if (self.nologinView) {
@@ -154,7 +161,7 @@
             if (self.studentList.count < 1) {
                 WebViewController *webVC = [[WebViewController alloc]init];
                 webVC.hidesBottomBarWhenPushed = YES;
-                webVC.urlString = @"http://vip.xiangjianhai.com:8001/app/user/boundstudent.html";
+                webVC.urlString = [NSString stringWithFormat:@"%@/user/boundstudent.html",BaseWebURL];
                 [self.navigationController pushViewController:webVC animated:YES];
             }
         } else {

@@ -105,10 +105,10 @@
             [[NSUserDefaults standardUserDefaults] setObject:dic[@"avator"] forKey:@"USER_HeaderImage"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             //用户名
-            [[NSUserDefaults standardUserDefaults] setObject:dic[@"is_owner"] forKey:@"USER_IsOwner"];
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"user_name"] forKey:@"USER_Name"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             //主账号
-            [[NSUserDefaults standardUserDefaults] setObject:dic[@"viceAccount"] forKey:@"USER_ViceAccount"];
+            [[NSUserDefaults standardUserDefaults] setObject:dic[@"is_owner"] forKey:@"USER_IsOwner"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             //副账号
             [[NSUserDefaults standardUserDefaults] setObject:dic[@"viceAccount"] forKey:@"USER_ViceAccount"];

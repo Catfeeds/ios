@@ -11,6 +11,8 @@
 
 //正式服务器
 #define BaseURL @"http://vip.xiangjianhai.com:8001/index.php/Wap"
+#define BaseWebURL @"http://vip.xiangjianhai.com:8001/app"
+
 //测试服务器
 //#define BaseURL @"http://w.xjh.com/index.php/Wap"
 
@@ -21,6 +23,8 @@
 #define USERHeaderImage [[NSUserDefaults standardUserDefaults] objectForKey:@"USER_HeaderImage"]
 //副账号
 #define USER_ViceAccount  [[NSUserDefaults standardUserDefaults] objectForKey:@"USER_ViceAccount"]
+//主账号
+#define USER_IsOwner  [[NSUserDefaults standardUserDefaults] boolForKey:@"USER_IsOwner"]
 
 //通知名称
 #define LoginSuccessNotificationName  @"LoginSuccessNotificationName"
@@ -45,6 +49,8 @@
 /********************* 个人中心 ********************************/
 //钱包
 #define kAPIWalletDataURL [NSString stringWithFormat:@"%@/Member/self_assets.html?key=%@",BaseURL,UserToken]
+//用户信息
+#define kAPIUserDataURL [NSString stringWithFormat:@"%@/Member/info.html",BaseURL]
 
 
 /********************* 发现 ********************************/

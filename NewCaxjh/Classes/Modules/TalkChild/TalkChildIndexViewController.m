@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.view showEmptyPlaceImage:@"no_friend_prompt" WithContent:@"暂无好友"];
 }
 
 - (void)didReceiveMemoryWarning {

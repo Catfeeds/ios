@@ -10,7 +10,6 @@
 #import "UserIndexViewController.h"
 
 @interface BaseViewController ()
-@property (nonatomic ,strong)UIView *userIndexView;
 @end
 
 @implementation BaseViewController
@@ -133,9 +132,9 @@
 //自定义导航栏右侧按钮
 -(void)setUpRightBarButtonItemWithTitle:(NSString *)title{
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     CGSize size = [title sizeWithAttributes:@{@"NSFontAttributeName":[UIFont systemFontOfSize:14]}];
-    rightBtn.frame = CGRectMake(0, 0, size.width, 30);
+    rightBtn.frame = CGRectMake(0, 0, size.width+10, 30);
     rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     [rightBtn setTitle:title forState:UIControlStateNormal];
     [rightBtn setTitleColor:defaultTextColor forState:UIControlStateNormal];

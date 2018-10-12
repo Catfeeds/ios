@@ -82,6 +82,7 @@ static AFHTTPSessionManager *manager=nil;
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (error) {
+            [[UIApplication sharedApplication].keyWindow makeToast:@"服务器连接超时，请稍后重试"];
             failBlock(error);
         }
     }];
